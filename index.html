@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" data-bs-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,43 +15,53 @@
     <link rel="stylesheet" href="src/styles/style.css" />
   </head>
   <body>
-    <header
-      class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
-    >
+    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
       <a
         href="/"
-        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none p"
+        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
-          height="40"
+          height="32"
           fill="currentColor"
-          class="bi bi-bicycle"
+          class="bi bi-bicycle me-2"
           viewBox="0 0 16 16"
-          style="margin: 0 30px"
         >
           <path
             d="M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5zm1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139L5.5 6.943zM8 9.057 9.598 6.5H6.402L8 9.057zM4.937 9.5a1.997 1.997 0 0 0-.487-.877l-.548.877h1.035zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765l1.027-1.643zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53L11.55 8.623z"
           />
         </svg>
-        <h1 class="fs-4">Gestión para ciclistas</h1>
+
+        <span class="fs-4">CicloPlanner</span>
       </a>
 
       <ul class="nav nav-pills">
-        <li class="nav-item">
-          <a href="#mapas" class="nav-link active" aria-current="page">Mapas</a>
-        </li>
+        <a href="/src/public/login_page.html">
+          <li class="nav-item">
+            <p
+              class="nav-link active"
+              aria-current="page"
+              style="margin-bottom: 0"
+            >
+              Foro
+            </p>
+          </li></a
+        >
+        <li class="nav-item"><a href="#mapas" class="nav-link">Mapas</a></li>
         <li class="nav-item">
           <a href="#alertas" class="nav-link">Alertas</a>
         </li>
-        <li class="nav-item"><a href="#foro" class="nav-link">Comunidad</a></li>
+        <li class="nav-item">
+          <a href="#quienes-somos" class="nav-link">¿Quienes somos?</a>
+        </li>
       </ul>
     </header>
 
-    <section id="hero">
-      <div class="px-4 my-5 text-center">
+    <section id="hero" class="center-v">
+      <div class="text-center">
         <svg
+          id="bike-anim"
           xmlns="http://www.w3.org/2000/svg"
           width="72"
           height="72"
@@ -68,18 +78,11 @@
           Movilidad Sostenible y Ciclovías Seguras
         </h1>
         <div class="col-lg-6 mx-auto">
-          <p class="lead mb-4">
-            En una ciudad en crecimiento como la nuestra, la movilidad
-            sostenible se ha vuelto una preocupación primordial. Uno de los
-            desafíos más evidentes es la falta de una infraestructura adecuada
-            para ciclistas. A pesar del aumento en el número de personas que
-            utilizan bicicletas como medio de transporte, las ciclovías son
-            insuficientes y en ocasiones poco seguras. Esta problemática
-            conlleva riesgos tanto para los ciclistas como para los conductores
-            de vehículos motorizados.
+          <p id="hero-desc">
+            Pedalea con confianza, planifica con CicloPlanner.
           </p>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <a href="#foro"
+            <a href="src/public/login_page.html"
               ><button type="button" class="btn btn-primary btn-lg px-4 gap-3">
                 Ir a comunidad
               </button></a
@@ -89,8 +92,7 @@
       </div>
     </section>
 
-    <hr class="hr" />
-    <section id="mapas">
+    <section id="mapas" class="bg">
       <div class="container col-xxl-8 px-4">
         <div class="row flex-lg-row-reverse align-items-center g-5 py-3">
           <div class="col-10 col-sm-8 col-lg-6">
@@ -106,7 +108,7 @@
           <div class="col-md-10 mx-auto col-lg-5">
             <img
               class="rounded-3"
-              src="src/img/biciruta-10-08-2022-scaled.jpg"
+              src="src/img/Rutas.jpg"
               alt=""
               height="516"
             />
@@ -117,7 +119,10 @@
       <div class="container col-xl-10 col-xxl-8 px-4 py-5">
         <div class="row align-items-center g-lg-5">
           <div class="col-lg-5 text-center text-lg-start">
-            <form class="p-4 p-md-5 border rounded-3 bg-light" id="form_rutas">
+            <form
+              class="p-4 p-md-5 border rounded-3 bg-body-tertiary"
+              data-bitwarden-watching="1"
+            >
               <div class="form-floating mb-3">
                 <h1 class="display-8 fw-bold lh-1 mb-3">
                   Planificacion de rutas
@@ -178,7 +183,7 @@
         </div>
       </div>
     </section>
-    <section id="alertas">
+    <section id="alertas" class="bg">
       <div class="container col-xxl-8 px-4">
         <div class="row flex-lg-row-reverse align-items-center g-5 py-3">
           <div class="col-10 col-sm-8 col-lg-6">
@@ -216,193 +221,23 @@
         </div>
       </div>
     </section>
-    <section id="foro">
-      <div class="container">
-        <h1 class="display-5 fw-bold lh-1 mb-3" style="margin-top: 40px">
-          Comunidad
-        </h1>
-        <p class="lead">
-          Seccion donde puedes encontrar comentarios, recomendaciones y avisos
-          de servicio para Gestión de ciclistas, encontraras amigos y
-          comapañeros de ruta.
-          <br />¿Que esperas?, haz tu comentario.
-        </p>
-        <button
-          class="btn btn-primary has-icon btn-block"
-          type="button"
-          data-toggle="modal"
-          data-target="#threadModal"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-plus mr-2"
-          >
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          Nuevo comentario
-        </button>
-      </div>
-
-      <div class="container">
-        <div class="card forum_comment">
-          <div class="card-body">
-            <h5 class="card-title"><a href="">María_23</a></h5>
-            <p class="card-text">
-              ¡Excelente iniciativa! Estoy emocionada por tener una herramienta
-              que finalmente nos ayude a planificar rutas seguras y conectadas.
-              ¡A pedalear por ciudades más amigables con las bicis!
-            </p>
-            <p class="text-muted">
-              respondió hace
-              <span class="text-secondary font-weight-bold">2 horas</span>
+    <section id="quienes-somos">
+      <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+        <div class="row align-items-center g-lg-5">
+          <div class="col-lg-6 text-center text-lg-start">
+            <h1 class="display-5 fw-bold lh-1 mb-3">¿Que es CicloPlanner?</h1>
+            <p class="lead">
+              En CicloPlanner, estamos comprometidos con la movilidad sostenible
+              y la seguridad de los ciclistas en nuestra ciudad en crecimiento.
+              Nuestra plataforma en línea ofrece mapas y rutas de ciclovías,
+              alertas de seguridad y una comunidad ciclista unida. Nuestro
+              objetivo es fortalecer a los ciclistas urbanos, brindándoles
+              herramientas para viajes seguros y conexiones significativas.
+              Únete a nosotros para transformar juntos la manera en que nos
+              movemos por la ciudad, priorizando la seguridad y la comunidad.
             </p>
           </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="card forum_comment">
-          <div class="card-body">
-            <h5 class="card-title"><a href="">CarlosCiclovia</a></h5>
-            <p class="card-text">
-              Me encantaría ver un mapeo detallado de las ciclovías,
-              especialmente aquellas que se integran con el transporte público.
-              ¡Es hora de unir fuerzas para una movilidad más verde!
-            </p>
-            <p class="text-muted">
-              respondió hace
-              <span class="text-secondary font-weight-bold">4 horas</span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="card forum_comment">
-          <div class="card-body">
-            <h5 class="card-title"><a href="">AventurasEnBici</a></h5>
-            <p class="card-text">
-              ¡Alertas de seguridad! Eso es lo que necesitamos. Espero que esta
-              aplicación nos ayude a evitar esas intersecciones caóticas y
-              mantenernos al tanto del clima. ¡Gran proyecto!
-            </p>
-            <p class="text-muted">
-              respondió hace
-              <span class="text-secondary font-weight-bold">6 horas</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="card forum_comment">
-          <div class="card-body">
-            <h5 class="card-title"><a href="">PedaleandoVerde</a></h5>
-            <p class="card-text">
-              ¿Una comunidad ciclista en línea? ¡Increíble! Sería genial
-              compartir mis rutas favoritas y aprender de otros ciclistas
-              urbanos. Juntos podemos marcar la diferencia.
-            </p>
-            <p class="text-muted">
-              respondió hace
-              <span class="text-secondary font-weight-bold">9 horas</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="card forum_comment">
-          <div class="card-body">
-            <h5 class="card-title"><a href="">RuedasSeguras</a></h5>
-            <p class="card-text">
-              La seguridad es primordial para todos nosotros. Si esta aplicación
-              puede ayudarnos a identificar las zonas peligrosas,
-              definitivamente la utilizaré. ¡Gracias por pensar en nosotros,
-              ciclistas!
-            </p>
-            <p class="text-muted">
-              respondió hace
-              <span class="text-secondary font-weight-bold">12 horas</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="card forum_comment">
-          <div class="card-body">
-            <h5 class="card-title"><a href="">BiciUrbana123</a></h5>
-            <p class="card-text">
-              No puedo esperar para trazar mis rutas y encontrar nuevas vías
-              para llegar a mi trabajo. Con más ciclovías y menos autos en la
-              carretera, el futuro se ve brillante.
-            </p>
-            <p class="text-muted">
-              respondió hace
-              <span class="text-secondary font-weight-bold">1 día</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="card forum_comment">
-          <div class="card-body">
-            <h5 class="card-title"><a href="">CiclistaComprometido</a></h5>
-            <p class="card-text">
-              Como ciclista de años, esto es un sueño hecho realidad. La
-              colaboración entre ciclistas y diseñadores puede llevarnos a una
-              ciudad más amigable con bicicletas. Estoy emocionado.
-            </p>
-            <p class="text-muted">
-              respondió hace
-              <span class="text-secondary font-weight-bold">2 días</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="card forum_comment">
-          <div class="card-body">
-            <h5 class="card-title"><a href="">RosaEnBici</a></h5>
-            <p class="card-text">
-              Espero que esta plataforma fomente el respeto mutuo en las vías.
-              Como ciclistas, debemos ser conscientes de las reglas de tránsito,
-              ¡y los conductores también! Juntos podemos compartir la carretera
-              de manera segura.
-            </p>
-            <p class="text-muted">
-              respondió hace
-              <span class="text-secondary font-weight-bold">3 días</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="card forum_comment">
-          <div class="card-body">
-            <h5 class="card-title"><a href="">PedalFeliz</a></h5>
-            <p class="card-text">
-              ¡Felicidades por tomar medidas hacia un cambio positivo! El
-              ciclismo no solo beneficia al medio ambiente, sino también a
-              nuestra salud. Contad conmigo para apoyar esta causa.
-            </p>
-            <p class="text-muted">
-              respondió hace
-              <span class="text-secondary font-weight-bold">4 días</span>
-            </p>
-          </div>
+          <div class="col-md-10 mx-auto col-lg-6"></div>
         </div>
       </div>
     </section>
