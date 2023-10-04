@@ -1,12 +1,10 @@
 from flask import Flask, render_template
 
 '''
-Codigo comentado hasta que se solucione el error con la BDD
-
 from db.db import app
 from Routes.users_routes import users_routes
 from Routes.routes_routes import rutas_routes
-from Routes.precaution_tips_routes import precautionTips_routes
+from Gestion_para_ciclistas.Routes.alarms_routes import precautionTips_routes
 from Routes.comments_routes import comments_routes
 
 app.register_blueprint(users_routes, url_prefix="/users")

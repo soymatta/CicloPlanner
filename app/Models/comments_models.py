@@ -1,7 +1,7 @@
 from Models.users_models import db, ma
 from db.db import app
 
-class Comentarios(db.Model):
+class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(255), nullable=True)
     date = db.Column(db.Date)
@@ -12,12 +12,12 @@ class Comentarios(db.Model):
         self.date = date
         self.user_id = user_id
 
-class ComentariosSchema(ma.SQLAlchemyAutoSchema):
+class CommentsSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = Comentarios
+        model = Comments
 
-comentario_schema = ComentariosSchema()
-comentarios_schema = ComentariosSchema(many=True)
+comment_schema = CommentsSchema()
+comments_schema = CommentsSchema(many=True)
 
 with app.app_context():
     db.create_all()

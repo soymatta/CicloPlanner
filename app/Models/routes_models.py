@@ -1,7 +1,7 @@
 from Models.users_models import db, ma
 from db.db import app
 
-class Rutas(db.Model):
+class Routes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
     distance = db.Column(db.String(255), nullable=False)
@@ -21,12 +21,12 @@ class Rutas(db.Model):
         self.state = state
         self.user_id = user_id
 
-class RutasSchema(ma.SQLAlchemyAutoSchema):
+class RoutesSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = Rutas
+        model = Routes
 
-ruta_schema = RutasSchema()
-rutas_schema = RutasSchema(many=True)
+route_schema = RoutesSchema()
+routes_schema = RoutesSchema(many=True)
 
 with app.app_context():
     db.create_all()

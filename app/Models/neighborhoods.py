@@ -16,7 +16,7 @@ class NeighborhoodsSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Neighborhoods
 
-neighborhoods_schema = NeighborhoodsSchema()
+neighborhood_schema = NeighborhoodsSchema()
 neighborhoods_schema = NeighborhoodsSchema(many=True)
 
 with app.app_context():

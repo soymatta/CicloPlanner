@@ -16,7 +16,7 @@ class AlarmsSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Alarms
 
-precautionTip_schema = AlarmsSchema()
+alarm_schema = AlarmsSchema()
 alarms_schema = AlarmsSchema(many=True)
 
 with app.app_context():

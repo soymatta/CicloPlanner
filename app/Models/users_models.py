@@ -5,12 +5,12 @@ from db.db import app
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-class Usuarios(db.Model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     username = db.Column(db.String(30))
     email = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(30), nullable=False)
-    image = db.Column(db.String(300))
+    image = db.Column(db.String(300), nullable=False) 
     address = db.Column(db.String(300))
 
     def __init__(self, username, email, password, image, address):
@@ -20,12 +20,12 @@ class Usuarios(db.Model):
         self.image = image
         self.address = address
 
-class UsuariosSchema(ma.SQLAlchemyAutoSchema):
+class UsersSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = Usuarios
+        model = Users
 
-usuario_schema = UsuariosSchema()
-usuarios_schema = UsuariosSchema(many=True)
+user_schema = UsersSchema()
+users_schema = UsersSchema(many=True)
 
 with app.app_context():
     db.create_all()
