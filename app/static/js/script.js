@@ -1,1 +1,1 @@
-consol.log("Prueba de el JS")
+console.log("Prueba de el JS")

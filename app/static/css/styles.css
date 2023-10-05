@@ -1,21 +1,11 @@
-.container-fluid {
-  margin-top: 50px;
-}
-#map {
-  margin-top: 20px;
-}
-#hero {
+.bg-1 {
   background-image: url("../img/Bg-Dark.png");
   background-position: center;
   background-size: cover;
+}
+#hero {
   height: 90vh;
   border-bottom: 3px solid #616161;
-  margin-bottom: 20px;
-}
-.center-v {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centrar verticalmente */
 }
 
 #quienes-somos {
@@ -24,10 +14,6 @@
   background-size: cover;
   height: 100vh;
   border-top: 3px solid #616161;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centrar verticalmente */
-  margin-top: 20px;
 }
 .bg {
   background-image: radial-gradient(rgba(0, 0, 0, 0.2) 2px, transparent 2px),
@@ -37,9 +23,6 @@
   background-color: rgba(255, 255, 255, 0);
 }
 
-#hero-desc {
-  font-size: 25px;
-}
 @keyframes moveBicycle {
   0% {
     transform: translateX(-50px);
@@ -60,8 +43,4 @@
 
 #bike-anim {
   animation: moveBicycle 2s infinite linear;
-}
-
-header svg {
-  margin-left: 20px;
 }

@@ -1,8 +1,30 @@
-{% extends "layout.html" %} {% block header %}
-<header class="d-flex justify-content-center py-3 border-bottom">
-  <a href="/" class="text-decoration-none">
-    <span class="fs-4">CicloPlanner</span></a
+{% extends "layout.html" %} {% block title %}Comunidad{% endblock %}{% block
+header %}
+<header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
+  <a
+    href="/"
+    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
   >
+    <img
+      src="{{ url_for('static', filename='img/Logo.png') }}"
+      alt="CicloPlanner Logo"
+      width="32"
+      height="32"
+      class="ms-4 me-2"
+    />
+
+    <span class="fs-4">CicloPlanner</span>
+  </a>
+
+  <ul class="nav nav-pills">
+    <li class="nav-item"><a href="" class="nav-link">Comentarios</a></li>
+    <li class="nav-item">
+      <a href="" class="nav-link">Mis alertas</a>
+    </li>
+    <li class="nav-item">
+      <a href="" class="nav-link">Modificar usuario</a>
+    </li>
+  </ul>
 </header>
 {% endblock %} {% block content %}
 <div class="container">
@@ -21,21 +43,7 @@
     data-toggle="modal"
     data-target="#threadModal"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="feather feather-plus mr-2"
-    >
-      <line x1="12" y1="5" x2="12" y2="19"></line>
-      <line x1="5" y1="12" x2="19" y2="12"></line>
-    </svg>
+    <i class="bx bx-plus"></i>
     Nuevo comentario
   </button>
 </div>

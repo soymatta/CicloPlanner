@@ -1,5 +1,5 @@
 {% extends "layout.html" %} {% block content %}
-<section id="hero" class="center-v">
+<section id="hero" class="bg-1 d-flex flex-column justify-content-center mb-4">
   <div class="text-center">
     <svg
       id="bike-anim"
@@ -17,7 +17,7 @@
     </svg>
     <h1 class="display-5 fw-bold">Movilidad Sostenible y Ciclovías Seguras</h1>
     <div class="col-lg-6 mx-auto">
-      <p id="hero-desc">Pedalea con confianza, planifica con CicloPlanner.</p>
+      <p class="fs-5">Pedalea con confianza, planifica con CicloPlanner.</p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
         <a href="/login"
           ><button type="button" class="btn btn-primary btn-lg px-4 gap-3">
@@ -74,20 +74,12 @@
           </div>
           <div class="checkbox mb-3">
             <label>
-              <input type="checkbox" value="alertas" /> ¿Desea recibir alertas
-              de la ruta?
+              <input type="checkbox" value="alertas" /> ¿Desea guardar esta ruta?
             </label>
           </div>
           <button class="w-100 btn btn-lg btn-primary" type="submit">
             Buscar
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-search"
-              viewBox="0 0 16 16"
-            >
+            <i class='bx bx-search-alt'></i>
               <path
                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
               />
@@ -134,7 +126,7 @@
           >
         </div>
       </div>
-      <div class="container-fluid col-sm-12 col-lg-6">
+      <div class="container-fluid mt-5 col-sm-12 col-lg-6">
         <img
           src="{{ url_for('static', filename='img/map_danger.png') }}"
           alt="Zonas peligrosas en Barranquilla"
@@ -147,7 +139,10 @@
     </div>
   </div>
 </section>
-<section id="quienes-somos">
+<section
+  id="quienes-somos"
+  class="mt-4 d-flex flex-column justify-content-center"
+>
   <div class="container col-xl-10 col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-lg-5">
       <div class="col-lg-6 text-center text-lg-start">

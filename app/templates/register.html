@@ -1,5 +1,5 @@
-{% extends "layout.html" %} {% block title %}Inicia en comunidad{% endblock %}{%
-block header %}{% endblock %} {% block content %}
+{% extends "layout.html" %} {% block title %}Registrate{% endblock %}{% block
+header %}{% endblock %} {% block content %}
 <section
   class="bg-1 d-flex flex-column justify-content-center"
   style="height: 100vh"
@@ -36,13 +36,20 @@ block header %}{% endblock %} {% block content %}
         />
         <label for="floatingPassword">Contraseña</label>
       </div>
-      <a href="/community"
-        ><p class="w-100 btn btn-lg btn-primary" type="submit">Entrar</p></a
-      >
-      <hr class="my-4" />
-      <div class="container d-flex flex-column align-items-center">
-        <small><a href="/register">¿Aun no tienes una cuenta?</a></small>
+      <div class="form-floating mb-3">
+        <input
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Contraseña"
+        />
+        <label for="floatingPassword">Repite tu contraseña</label>
       </div>
+      <a href="/login"
+        ><p class="w-100 btn btn-lg btn-primary" type="submit">
+          Registrarte
+        </p></a
+      >
     </form>
   </div>
 </section>
