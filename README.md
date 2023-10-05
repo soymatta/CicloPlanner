@@ -25,4 +25,11 @@
 
     python app/app.py
 
-Por defecto Flask funciona en el puerto 5000 por lo cual puedes acceder desde cualquier navegador introduciendo [https://localhost:5000](localhost:5000)
+Por defecto Flask funciona en el puerto 5000 por lo cual puedes acceder desde cualquier navegador introduciendo [localhost:5000](https://localhost:5000)
+
+## Probar peticiones HTTP
+
+GET:
+POST:
+PUT:
+DELETE:
