@@ -19,11 +19,9 @@
     <div class="col-lg-6 mx-auto">
       <p class="fs-5">Pedalea con confianza, planifica con CicloPlanner.</p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <a href="/login"
-          ><button type="button" class="btn btn-primary btn-lg px-4 gap-3">
-            Ir a comunidad
-          </button></a
-        >
+        <a class="btn btn-primary btn-lg px-4 gap-3" href="/login">
+          Ir a comunidad
+        </a>
       </div>
     </div>
   </div>
@@ -59,6 +57,7 @@
         <form
           class="p-4 p-md-5 border rounded-3 bg-body-tertiary"
           data-bitwarden-watching="1"
+          onsubmit="return buscarRuta()"
         >
           <div class="form-floating mb-3">
             <h1 class="display-8 fw-bold lh-1 mb-3">Planificación de rutas</h1>
@@ -74,19 +73,16 @@
           </div>
           <div class="checkbox mb-3">
             <label>
-              <input type="checkbox" value="alertas" /> ¿Desea guardar esta ruta?
+              <input type="checkbox" id="guardarRuta" /> ¿Desea guardar esta
+              ruta?
             </label>
           </div>
           <button class="w-100 btn btn-lg btn-primary" type="submit">
             Buscar
-            <i class='bx bx-search-alt'></i>
-              <path
-                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-              />
-            </svg>
+            <i class="bx bx-search-alt"></i>
           </button>
           <hr class="my-4" />
-          <small class="text-muted">Recomendaciones:</small>
+          <small class="text-muted">Alertas:</small>
         </form>
       </div>
       <div class="col-md-10 mx-auto col-lg-7">
@@ -111,20 +107,6 @@
           cambios climáticos en las ciclorutas. Puedes activarlo marcando la
           casilla
         </p>
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="alertas" /> ¿Desea recibir alertas de
-            la ruta?
-          </label>
-          <div
-            class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5"
-          ></div>
-          <a href="#form_rutas"
-            ><button type="button" class="btn btn-danger btn-lg px-4">
-              Activa tus alarmas
-            </button></a
-          >
-        </div>
       </div>
       <div class="container-fluid mt-5 col-sm-12 col-lg-6">
         <img
@@ -162,4 +144,31 @@
     </div>
   </div>
 </section>
+
+<!--MODAL-->
+<div
+  class="modal fade"
+  id="modalWeb"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalWebLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalWebLabel">
+          <p id="titulo_modal">Titulo</p>
+        </h5>
+
+        <button type="button" class="btn btn-primary" onclick="cerrarModal()">
+          x
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="contenido_modal">Contenido</p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
