@@ -1,5 +1,6 @@
 console.log("Prueba de el JS");
 
+// Fucniones auxiliares
 function mostrarModal() {
   $("#modalWeb").modal("show"); // Muestra el modal con jQuery
 }
@@ -15,6 +16,7 @@ function cambiarContenidoModal(contenido) {
   elemento.innerHTML = contenido;
 }
 
+// Funciones directas
 function planificarRuta(posA, posB) {
   // Toma la direccion de inicio con la direccion final y muestra una ruta entre ambos puntos
 
@@ -60,5 +62,37 @@ function buscarRuta() {
   return false;
 }
 
-function validarLogIn() {}
-function validadRegister() {}
+function validarLogIn() {
+  let usuario = document.getElementById("loginUser").value;
+  let contrasena = document.getElementById("loginPassword").value;
+
+  // Codigo para verificar si algun si ese usuario concide con esa contraseña
+
+  console.log("Usuario: " + usuario);
+  console.log("Contraseña: " + contrasena);
+
+  return false;
+}
+
+function validadRegister() {
+  let usuario = document.getElementById("loginUser").value;
+  let contrasena = document.getElementById("loginPassword").value;
+  let contrasenRepeat = document.getElementById(
+    "loginPasswordVerification"
+  ).value;
+
+  if (contrasena != contrasenRepeat) {
+    mostrarModal();
+    cambiarTituloModal("Verificacion de seguridad");
+    cambiarContenidoModal(
+      "Su contraseña no concide con la verificacion de contraseña, por favor vuelva a introducir la misma contraseña en ambos campos."
+    );
+  }
+
+  // Codigo para verificar si algun si ese usuario concide con esa contraseña
+
+  console.log("Usuario: " + usuario);
+  console.log("Contraseña: " + contrasena);
+
+  return false;
+}

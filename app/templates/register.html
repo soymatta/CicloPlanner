@@ -22,28 +22,28 @@ header %}{% endblock %} {% block content %}
         <input
           type="user"
           class="form-control"
-          id="floatingInput"
+          id="registerUser"
           placeholder="Usuario"
         />
-        <label for="floatingInput">Usuario</label>
+        <label for="registerUser">Usuario</label>
       </div>
       <div class="form-floating mb-3">
         <input
           type="password"
           class="form-control"
-          id="floatingPassword"
+          id="registerPassword"
           placeholder="Contraseña"
         />
-        <label for="floatingPassword">Contraseña</label>
+        <label for="registerPassword">Contraseña</label>
       </div>
       <div class="form-floating mb-3">
         <input
           type="password"
           class="form-control"
-          id="floatingPassword"
-          placeholder="Contraseña"
+          id="loginPasswordVerification"
+          placeholder="Verificacion de contraseña"
         />
-        <label for="floatingPassword">Repite tu contraseña</label>
+        <label for="loginPasswordVerification">Repite tu contraseña</label>
       </div>
       <a href="/login"
         ><p class="w-100 btn btn-lg btn-primary" type="submit">
@@ -53,4 +53,31 @@ header %}{% endblock %} {% block content %}
     </form>
   </div>
 </section>
+
+<!--MODAL-->
+<div
+  class="modal fade"
+  id="modalWeb"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalWebLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalWebLabel">
+          <p id="titulo_modal">Titulo</p>
+        </h5>
+
+        <button type="button" class="btn btn-primary" onclick="cerrarModal()">
+          x
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="contenido_modal">Contenido</p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
