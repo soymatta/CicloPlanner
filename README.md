@@ -2,6 +2,7 @@
 
 ## Prerrequisitos
 
+- Tener instalado Xampp, MySQL Workbench y Postman
 - Tener instalado Python en su ultima versión
 - Tener instalado el módulo `virtualenv`
 
@@ -21,7 +22,15 @@
 
     pip install -r requirements.txt
 
-### 3. Activa el proyecto con Flask
+### 3. Activa servicios con Xampp
+Al abrir xampp te mostrara una interfaz con los diferentes modulos de la aplicacion, lo unico que tendremos que hacer es correr los modulos de apache y mysql quedando de la siguiente forma:
+![Xampp running](xampp_running.png)
+
+### 4. Crea la conexion en MySQL
+
+crea una nueva conexion y el direccion le colocas localhost o tu ip de localhost y en puerto usaras el mismo de xampp (por defecto es el 3306)
+
+### 5. Activa el proyecto con Flask
 
     python app/app.py
 
