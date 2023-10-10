@@ -1,5 +1,5 @@
 from flask import jsonify, request, blueprints
-from Models.users_models import Usuarios, usuarios_schema, usuario_schema, db
+from Models.users_models import Users, UsersSchema, db
 
 users_routes = blueprints.Blueprint("users", __name__)
 
@@ -7,18 +7,18 @@ users_routes = blueprints.Blueprint("users", __name__)
 
 #-------GET-----------
 @users_routes.route('/get', methods=['GET'])
-def get_usuarios():
-    usuarios = Usuarios.query.all()
-    return jsonify(usuarios_schema.dump(usuarios))
+def get_users():
+    users = Users.query.all()
+    return jsonify(UsersSchema.dump(users))
 
 #-------POST-----------
 @users_routes.route('/post', methods=['POST'])
 def create_usuario():
     try:
         data = request.get_json()
-        db.session.add(Usuarios(**data))
+        db.session.add(Users(**data))
         db.session.commit()
-        return usuario_schema.jsonify(Usuarios(**data)), 201
+        return usuario_schema.jsonify(Users(**data)), 201
     except Exception as e:
         return jsonify({"error": "Error al crear el usuario", "details": str(e)}), 400
 
@@ -26,7 +26,7 @@ def create_usuario():
 @users_routes.route('/put/<id>', methods=['PUT'])
 def update_usuario(id):
     try:
-        usuario = Usuarios.query.get(id)
+        usuario = Users.query.get(id)
         if not usuario:
                 return jsonify({"error": "Usuario no encontrado"}), 404
 
@@ -46,7 +46,7 @@ def update_usuario(id):
 @users_routes.route('/delete/<id>', methods=['DELETE'])
 def delete_usuario(id):
     try:
-        usuario = Usuarios.query.get(id)
+        usuario = Users.query.get(id)
 
         if not usuario:
             return jsonify({"error": "Usuario no encontrado"}), 404

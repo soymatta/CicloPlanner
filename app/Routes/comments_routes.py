@@ -1,5 +1,5 @@
 from flask import blueprints, request, jsonify
-from Models.comments_models import Comentarios, comentarios_schema, comentario_schema, db
+from Models.comments_models import Comments, CommentsSchema, db
 
 comments_routes = blueprints.Blueprint("comments", __name__)
 
@@ -8,18 +8,18 @@ comments_routes = blueprints.Blueprint("comments", __name__)
 #-------GET-----------    
 @comments_routes.route('/get', methods=['GET'])
 def get_comments():
-    comentarios = Comentarios.query.all()
-    return jsonify(comentarios_schema.dump(comentarios))
+    comments = Comments.query.all()
+    return jsonify(CommentsSchema.dump(comments))
 
 #-------POST-----------
 @comments_routes.route('/post', methods=['POST'])
 def create_comment():
     try:
         data = request.get_json()
-        db.session.add(Comentarios(**data))
+        db.session.add(Comments(**data))
         db.session.commit()
 
-        return comentario_schema.jsonify(Comentarios(**data)), 201
+        return comentario_schema.jsonify(Comments(**data)), 201
     except Exception as e:
         return jsonify({"error": "Error al crear el comentario", "details": str(e)}), 400
 
@@ -27,7 +27,7 @@ def create_comment():
 @comments_routes.route('/put/<id>', methods=['PUT'])
 def update_comment(id):
     try:
-        comentario = Comentarios.query.get(id)
+        comentario = Comments.query.get(id)
         if not comentario:
                 return jsonify({"error": "Comentario no encontrado"}), 404
 
@@ -47,7 +47,7 @@ def update_comment(id):
 @comments_routes.route('/delete/<id>', methods=['DELETE'])
 def delete_comment(id):
     try:
-        comentario = Comentarios.query.get(id)
+        comentario = Comments.query.get(id)
 
         if not comentario:
             return jsonify({"error": "Comentario no encontrado"}), 404

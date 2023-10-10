@@ -9,7 +9,7 @@ class Routes(db.Model):
     start = db.Column(db.String(255), nullable=False)
     destiny = db.Column(db.String(255), nullable=False)
     state = db.Column(db.String(255), nullable=False)
-    favorite = db.Column(db.Bool, nullable=False)
+    favorite = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
     def __init__(self, nombre, distance, aprox_time, start, destiny, state, user_id):
