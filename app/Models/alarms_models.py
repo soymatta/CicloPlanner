@@ -1,5 +1,4 @@
-from Models.users_models import db, ma
-from db.db import app
+from db.db import app, db, ma
 
 class Alarms(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -1,40 +1,41 @@
-from flask import blueprints, request, jsonify
-from Models.routes_models import Routes, RoutesSchema, db
+from flask import jsonify, request, Blueprint
+from Models.routes_models import Routes, RoutesSchema
+from db.db import db
 
-routes_routes = blueprints.Blueprint("routes", __name__)
+routes_routes = Blueprint("routes", __name__)
 
-#--------------------------------------------- REPORTES -----------------------------------------------
-
-#-------GET-----------    
+# ------- GET -----------
 @routes_routes.route('/get', methods=['GET'])
 def get_routes():
-    reportes = Routes.query.all()
-    return jsonify(RoutesSchema.dump(reportes))
+    routes = Routes.query.all()
+    routes_schema = RoutesSchema(many=True)
+    return jsonify(routes_schema.dump(routes)), 200
 
-#-------POST-----------
+# ------- POST -----------
 @routes_routes.route('/post', methods=['POST'])
-def create_ruta():
+def create_route():
     try:
         data = request.get_json()
-        db.session.add(Routes(**data))
+        route = Routes(**data)
+        db.session.add(route)
         db.session.commit()
-
-        return ruta_schema.jsonify(Routes(**data)), 201
+        return RoutesSchema().jsonify(route), 201
     except Exception as e:
+        db.session.rollback()
         return jsonify({"error": "Error al crear la ruta", "details": str(e)}), 400
 
-#-------PUT-----------
-@routes_routes.route('/put/<id>', methods=['PUT'])
-def update_ruta(id):
+# ------- PUT -----------
+@routes_routes.route('/put/<int:id>', methods=['PUT'])
+def update_route(id):
     try:
-        ruta = Routes.query.get(id)
-        if not ruta:
-                return jsonify({"error": "Ruta no encontrada"}), 404
+        route = Routes.query.get(id)
+        if not route:
+            return jsonify({"error": "Ruta no encontrada"}), 404
 
-        data = request.json
-            
-        for k, v in data.items():
-            setattr(ruta, k, v)
+        data = request.get_json()
+
+        for key, value in data.items():
+            setattr(route, key, value)
 
         db.session.commit()
 
@@ -43,16 +44,16 @@ def update_ruta(id):
         db.session.rollback()
         return jsonify({"error": "Error al actualizar la ruta", "details": str(e)}), 500
 
-#-------DELETE--------
-@routes_routes.route('/delete/<id>', methods=['DELETE'])
-def delete_reporte(id):
+# ------- DELETE -----------
+@routes_routes.route('/delete/<int:id>', methods=['DELETE'])
+def delete_route(id):
     try:
-        ruta = Routes.query.get(id)
+        route = Routes.query.get(id)
 
-        if not ruta:
+        if not route:
             return jsonify({"error": "Ruta no encontrada"}), 404
 
-        db.session.delete(ruta)
+        db.session.delete(route)
         db.session.commit()
 
         return jsonify({"mensaje": "Ruta eliminada correctamente"}), 200

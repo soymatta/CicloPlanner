@@ -1,40 +1,41 @@
-from flask import blueprints, request, jsonify
-from Models.alarms_models import Alarms, AlarmsSchema, db
+from flask import Blueprint, request, jsonify
+from Models.alarms_models import Alarms, AlarmsSchema
+from db.db import db
 
-alarms_routes = blueprints.Blueprint("precautiontips", __name__)
+alarms_routes = Blueprint("alarms", __name__)
 
-#--------------------------------------------- REPORTES -----------------------------------------------
-
-#-------GET-----------    
+# ------- GET -----------
 @alarms_routes.route('/get', methods=['GET'])
-def get_precaution_tips():
-    reportes = Alarms.query.all()
-    return jsonify(AlarmsSchema.dump(reportes))
+def get_alarms():
+    alarms = Alarms.query.all()
+    alarms_schema = AlarmsSchema(many=True)
+    return jsonify(alarms_schema.dump(alarms)), 200
 
-#-------POST-----------
+# ------- POST -----------
 @alarms_routes.route('/post', methods=['POST'])
-def create_precaution_tip():
+def create_alarm():
     try:
         data = request.get_json()
-        db.session.add(Alarms(**data))
+        alarm = Alarms(**data)
+        db.session.add(alarm)
         db.session.commit()
-
-        return precautionTip_schema.jsonify(Alarms(**data)), 201
+        return AlarmsSchema().jsonify(alarm), 201
     except Exception as e:
+        db.session.rollback()
         return jsonify({"error": "Error al crear el Consejo de precaución", "details": str(e)}), 400
 
-#-------PUT-----------
-@alarms_routes.route('/put/<id>', methods=['PUT'])
-def update_precaution_tip(id):
+# ------- PUT -----------
+@alarms_routes.route('/put/<int:id>', methods=['PUT'])
+def update_alarm(id):
     try:
-        precautionTip = Alarms.query.get(id)
-        if not precautionTip:
-                return jsonify({"error": "Consejo de precaución no encontrado"}), 404
+        alarm = Alarms.query.get(id)
+        if not alarm:
+            return jsonify({"error": "Consejo de precaución no encontrado"}), 404
 
-        data = request.json
-            
-        for k, v in data.items():
-            setattr(precautionTip, k, v)
+        data = request.get_json()
+
+        for key, value in data.items():
+            setattr(alarm, key, value)
 
         db.session.commit()
 
@@ -43,16 +44,16 @@ def update_precaution_tip(id):
         db.session.rollback()
         return jsonify({"error": "Error al actualizar el consejo de precaución", "details": str(e)}), 500
 
-#-------DELETE--------
-@alarms_routes.route('/delete/<id>', methods=['DELETE'])
-def delete_precaution_tip(id):
+# ------- DELETE -----------
+@alarms_routes.route('/delete/<int:id>', methods=['DELETE'])
+def delete_alarm(id):
     try:
-        precautionTip = Alarms.query.get(id)
+        alarm = Alarms.query.get(id)
 
-        if not precautionTip:
+        if not alarm:
             return jsonify({"error": "Consejo de precaución no encontrado"}), 404
 
-        db.session.delete(precautionTip)
+        db.session.delete(alarm)
         db.session.commit()
 
         return jsonify({"mensaje": "Consejo de precaución eliminado correctamente"}), 200

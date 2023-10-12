@@ -1,9 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
-from db.db import app
-
-db = SQLAlchemy(app)
-ma = Marshmallow(app)
+from db.db import app, db, ma
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
