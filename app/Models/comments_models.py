@@ -4,7 +4,7 @@ class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(255), nullable=True)
     date = db.Column(db.Date)
-    user_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __init__(self, content, date, user_id):
         self.content = content
