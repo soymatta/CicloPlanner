@@ -22,7 +22,7 @@ def create_alarm():
         return AlarmsSchema().jsonify(alarm), 201
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": "Error al crear el Consejo de precaución", "details": str(e)}), 400
+        return jsonify({"error": "Error al crear el usuario", "details": str(e)}), 400
 
 # ------- PUT -----------
 @alarms_routes.route('/put/<int:id>', methods=['PUT'])
@@ -30,7 +30,7 @@ def update_alarm(id):
     try:
         alarm = Alarms.query.get(id)
         if not alarm:
-            return jsonify({"error": "Consejo de precaución no encontrado"}), 404
+            return jsonify({"error": "Alarma no encontrado"}), 404
 
         data = request.get_json()
 
@@ -39,10 +39,10 @@ def update_alarm(id):
 
         db.session.commit()
 
-        return jsonify({"mensaje": "Consejo de precaución actualizado correctamente"}), 200
+        return jsonify({"mensaje": "Alarma actualizado correctamente"}), 200
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": "Error al actualizar el consejo de precaución", "details": str(e)}), 500
+        return jsonify({"error": "Error al actualizar el alarma", "details": str(e)}), 500
 
 # ------- DELETE -----------
 @alarms_routes.route('/delete/<int:id>', methods=['DELETE'])
@@ -51,12 +51,12 @@ def delete_alarm(id):
         alarm = Alarms.query.get(id)
 
         if not alarm:
-            return jsonify({"error": "Consejo de precaución no encontrado"}), 404
+            return jsonify({"error": "Alarma no encontrada"}), 404
 
         db.session.delete(alarm)
         db.session.commit()
 
-        return jsonify({"mensaje": "Consejo de precaución eliminado correctamente"}), 200
+        return jsonify({"mensaje": "Alarma eliminado correctamente"}), 200
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": "Error al eliminar el consejo de precaución", "details": str(e)}), 500
+        return jsonify({"error": "Error al eliminar el alarma", "details": str(e)}), 500

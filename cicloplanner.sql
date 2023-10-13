@@ -1,27 +1,7 @@
--- Crear la base de datos 'cicloplanner' si aún no existe
 CREATE DATABASE IF NOT EXISTS cicloplanner;
 
--- Usar la base de datos 'cicloplanner'
 USE cicloplanner;
 
--- Crear la tabla 'alarms' antes de 'neighborhoods' para evitar conflictos
-CREATE TABLE IF NOT EXISTS alarms (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
-    neighborhood_id INT
-);
-
--- Crear la tabla 'neighborhoods' antes de 'routes' para evitar conflictos
-CREATE TABLE IF NOT EXISTS neighborhoods (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    coords VARCHAR(255),
-    alarm_id INT,
-    FOREIGN KEY (alarm_id) REFERENCES alarms(id)
-);
-
--- Crear la tabla 'users' antes de 'comments' y 'routes' para evitar conflictos
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(30),
@@ -31,7 +11,6 @@ CREATE TABLE IF NOT EXISTS users (
     address VARCHAR(300)
 );
 
--- Crear la tabla 'comments' después de 'users'
 CREATE TABLE IF NOT EXISTS comments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     content VARCHAR(255),
@@ -40,7 +19,6 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Crear la tabla 'routes' después de 'users' y 'neighborhoods'
 CREATE TABLE IF NOT EXISTS routes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
@@ -52,4 +30,24 @@ CREATE TABLE IF NOT EXISTS routes (
     favorite BOOLEAN NOT NULL,
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS alarms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    description VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS neighborhoods (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    coords VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS neighborhoods_alarms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    neighborhoods_id INT NOT NULL,
+    alarms_id INT NOT NULL,
+    FOREIGN KEY (neighborhoods_id) REFERENCES neighborhoods(id),
+    FOREIGN KEY (alarms_id) REFERENCES alarms(id)
 );

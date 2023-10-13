@@ -4,12 +4,10 @@ class Alarms(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=True)
-    neighborhood_id = db.Column(db.Integer, db.ForeignKey('rutas.neighborhood'))
 
-    def __init__(self, titulo, description, neighborhood_id):
+    def __init__(self, titulo, description):
         self.titulo = titulo
         self.description = description
-        self.neighborhood_id = neighborhood_id
 
 class AlarmsSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
