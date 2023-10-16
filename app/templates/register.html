@@ -8,6 +8,9 @@ header %}{% endblock %} {% block content %}
     <form
       class="p-4 px-md-5 border rounded-3 bg-body-tertiary"
       data-bitwarden-watching="1"
+      onsubmit="return validarRegister()"
+      method="POST"
+      action="/register"
     >
       <div class="container d-flex flex-column align-items-center my-3">
         <img
@@ -20,9 +23,10 @@ header %}{% endblock %} {% block content %}
 
       <div class="form-floating mb-3">
         <input
-          type="user"
+          type="text"
           class="form-control"
           id="registerUser"
+          name="username"
           placeholder="Usuario"
         />
         <label for="registerUser">Usuario</label>
@@ -32,6 +36,7 @@ header %}{% endblock %} {% block content %}
           type="password"
           class="form-control"
           id="registerPassword"
+          name="password"
           placeholder="Contraseña"
         />
         <label for="registerPassword">Contraseña</label>
@@ -41,15 +46,14 @@ header %}{% endblock %} {% block content %}
           type="password"
           class="form-control"
           id="loginPasswordVerification"
+          name="passwordVerification"
           placeholder="Verificacion de contraseña"
         />
         <label for="loginPasswordVerification">Repite tu contraseña</label>
       </div>
-      <a href="/login"
-        ><p class="w-100 btn btn-lg btn-primary" type="submit">
-          Registrarte
-        </p></a
-      >
+      <button class="w-100 btn btn-lg btn-primary" type="submit">
+        Registrarte
+      </button>
     </form>
   </div>
 </section>

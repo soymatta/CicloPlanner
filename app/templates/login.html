@@ -8,7 +8,9 @@ block header %}{% endblock %} {% block content %}
     <form
       class="p-4 px-md-5 border rounded-3 bg-body-tertiary"
       data-bitwarden-watching="1"
-      onsubmit="validarLogIn()"
+      onsubmit="return validarLogin()"
+      method="POST"
+      action="/login"
     >
       <div class="container d-flex flex-column align-items-center my-3">
         <img
@@ -21,9 +23,10 @@ block header %}{% endblock %} {% block content %}
 
       <div class="form-floating mb-3">
         <input
-          type="user"
+          type="text"
           class="form-control"
           id="loginUser"
+          name="username"
           placeholder="Usuario"
         />
         <label for="loginUser">Usuario</label>
@@ -33,13 +36,12 @@ block header %}{% endblock %} {% block content %}
           type="password"
           class="form-control"
           id="loginPassword"
+          name="password"
           placeholder="Contraseña"
         />
         <label for="loginPassword">Contraseña</label>
       </div>
-      <a href="/community"
-        ><p class="w-100 btn btn-lg btn-primary" type="submit">Entrar</p></a
-      >
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
       <hr class="my-4" />
       <div class="container d-flex flex-column align-items-center">
         <small><a href="/register">¿Aun no tienes una cuenta?</a></small>
