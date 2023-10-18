@@ -21,12 +21,8 @@ CREATE TABLE IF NOT EXISTS comments (
 CREATE TABLE IF NOT EXISTS routes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    distance VARCHAR(255) NOT NULL,
-    aprox_time TIME NOT NULL,
     start VARCHAR(255) NOT NULL,
     destiny VARCHAR(255) NOT NULL,
-    state VARCHAR(255) NOT NULL,
-    favorite BOOLEAN NOT NULL,
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );

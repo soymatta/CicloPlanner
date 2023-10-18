@@ -3,22 +3,14 @@ from db.db import app, db, ma
 class Routes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
-    distance = db.Column(db.String(255), nullable=False)
-    aprox_time = db.Column(db.Time, nullable=False)
     start = db.Column(db.String(255), nullable=False)
     destiny = db.Column(db.String(255), nullable=False)
-    state = db.Column(db.String(255), nullable=False)
-    favorite = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __init__(self, nombre, distance, aprox_time, start, destiny, state, favorite, user_id):
+    def __init__(self, nombre, start, destiny, user_id):
         self.nombre = nombre
-        self.distance = distance
-        self.aprox_time = aprox_time
         self.start = start
         self.destiny = destiny
-        self.state = state
-        self.favorite = favorite
         self.user_id = user_id
 
 class RoutesSchema(ma.SQLAlchemyAutoSchema):
