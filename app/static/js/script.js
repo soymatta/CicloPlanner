@@ -122,6 +122,59 @@ function mostrarModalMapa(posA, posB) {
   $("#modalWeb").modal("show"); // Muestra el modal con jQuery
 }
 
+function generarContenidoRuta(rutas) {
+  const container = document.querySelector(".container");
+  let uniqueIdCounter = 0; // Contador para IDs únicos
+
+  rutas.forEach((ruta) => {
+    // Incrementar el contador de IDs únicos
+    uniqueIdCounter++;
+
+    // Generar IDs únicos para esta iteración
+    const dirAId = `dirA_${uniqueIdCounter}`;
+    const dirBId = `dirB_${uniqueIdCounter}`;
+
+    // Crear elementos HTML para cada ruta
+    const card = document.createElement("div");
+    card.className = "card m-4";
+
+    const cardBody = document.createElement("div");
+    cardBody.className = "card-body";
+
+    const cardTitle = document.createElement("h5");
+    cardTitle.className = "card-title";
+    cardTitle.textContent = ruta.nombre;
+
+    const cardText = document.createElement("p");
+    cardText.className = "card-text";
+    cardText.innerHTML = `
+    Direccion de salida: <span id="${dirAId}">${ruta.start}</span> <br />
+    Direccion de destino: <span id="${dirBId}">${ruta.destiny}</span>
+  `;
+
+    const cardButton = document.createElement("p");
+    cardButton.className = "text-muted";
+
+    const button = document.createElement("button");
+    button.className = "btn btn-primary has-icon btn-block";
+    button.textContent = "Mostrar ruta";
+    button.onclick = () => {
+      mostrarModalMapa(
+        document.getElementById(dirAId).textContent,
+        document.getElementById(dirBId).textContent
+      );
+    };
+
+    // Agregar elementos al DOM
+    cardButton.appendChild(button);
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardText);
+    cardBody.appendChild(cardButton);
+    card.appendChild(cardBody);
+    container.appendChild(card);
+  });
+}
+
 // ------  FUNCIONES DIRECTAS ------ //
 
 async function buscarRuta(event) {

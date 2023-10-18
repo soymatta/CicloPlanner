@@ -63,29 +63,8 @@ header %}
   </div>
 </section>
 
-<div class="container">
-  <div class="card m-4">
-    <div class="card-body">
-      <h5 class="card-title">
-        Cravo Norte, Arauca, Colombia --> Casa Loma, Girardot, Cundinamarca,
-        Colombia
-      </h5>
-      <p class="card-text">
-        Direccion de salida: <span>Cravo Norte, Arauca, Colombia</span> <br />
-        Direccion de destino:<span
-          >Casa Loma, Girardot, Cundinamarca, Colombia</span
-        >
-      </p>
-      <p class="text-muted">
-        <button
-          class="btn btn-primary has-icon btn-block"
-          onclick="mostrarModalMapa(posA, posB)"
-        >
-          Mostrar ruta
-        </button>
-      </p>
-    </div>
-  </div>
-</div>
-
+{% endblock %} {% block scripts%}
+<script src="{{ url_for('static', filename='js/users.js') }}"></script>
+<script src="{{ url_for('static', filename='js/routes.js') }}"></script>
+<script src="{{ url_for('static', filename='js/generarRutas.js') }}"></script>
 {% endblock %}
