@@ -1,4 +1,5 @@
-{% extends "layout.html" %} {% block header %}
+{% extends "layout.html" %} {% block title %}Mis rutas{% endblock %}{% block
+header %}
 <header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
   <a
     href="/"
@@ -49,4 +50,42 @@
     </div>
   </div>
 </header>
-{% endblock %}{% block content %} {% endblock %}
+{% endblock %} {% block content %}
+<section>
+  <div class="container">
+    <h1 class="display-5 fw-bold lh-1 mb-3" style="margin-top: 40px">
+      Rutas guardadas
+    </h1>
+    <a class="btn btn-primary has-icon btn-block" href="/community/routes/add">
+      <i class="bx bx-plus"></i>
+      Agregar nueva ruta
+    </a>
+  </div>
+</section>
+
+<div class="container">
+  <div class="card m-4">
+    <div class="card-body">
+      <h5 class="card-title">
+        Cravo Norte, Arauca, Colombia --> Casa Loma, Girardot, Cundinamarca,
+        Colombia
+      </h5>
+      <p class="card-text">
+        Direccion de salida: <span>Cravo Norte, Arauca, Colombia</span> <br />
+        Direccion de destino:<span
+          >Casa Loma, Girardot, Cundinamarca, Colombia</span
+        >
+      </p>
+      <p class="text-muted">
+        <button
+          class="btn btn-primary has-icon btn-block"
+          onclick="mostrarModalMapa(posA, posB)"
+        >
+          Mostrar ruta
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

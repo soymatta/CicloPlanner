@@ -1,27 +1,3 @@
-// ------  METODOS HTTP ------ //
-const urlApi = "http://127.0.0.1:5000";
-
-async function callApi(method, url, data = null) {
-  let options = {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      "User-Agent": "insomnia/8.1.0",
-    },
-    body: data ? JSON.stringify(data) : null,
-  };
-
-  try {
-    let response = await fetch(url, options);
-    if (!response.ok) {
-      throw new Error(`Error en métodos HTTP! : ${response.status}`);
-    }
-    let result = await response.json();
-    console.log(result);
-  } catch (error) {
-    console.error(error);
-  }
-}
 // ----------------------------- ALARMS HTTP ----------------------------- //
 
 // ----- GET -----

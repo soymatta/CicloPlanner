@@ -99,12 +99,19 @@ def routes():
     else: 
         return redirect(url_for('login'))
 
-@app.route('/checkSession', methods=['GET'])
-def checkSession():
+@app.route("/community/routes/add")
+def add_routes():
     if 'user_id' in session:
-        return jsonify({'Sesion iniciada': True, 'user_id': session['user_id']})
-    else:
-        return jsonify({'Sesion iniciada': False})
+        user_id = session['user_id']
+        user = Users.query.get(user_id)
+        return render_template('add_route.html', userImg=user.image)
+    else: 
+        return redirect(url_for('login'))
+
+@app.route('/getUserIDSession', methods=['GET'])
+def get_user_id():
+    user_id = session.get('user_id', None)
+    return jsonify({'user_id': user_id})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

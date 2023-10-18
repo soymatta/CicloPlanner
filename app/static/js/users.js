@@ -1,28 +1,3 @@
-// ------  METODOS HTTP ------ //
-const urlApi = "http://127.0.0.1:5000";
-
-async function callApi(method, url, data = null) {
-  let options = {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      "User-Agent": "insomnia/8.1.0",
-    },
-    body: data ? JSON.stringify(data) : null,
-  };
-
-  try {
-    let response = await fetch(url, options);
-    if (!response.ok) {
-      throw new Error(`Error en métodos HTTP! : ${response.status}`);
-    }
-    let result = await response.json();
-    console.log(result);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 // ----------------------------- USERS HTTP ----------------------------- //
 
 // ----- GET -----
@@ -45,4 +20,25 @@ function putUser(id, username, password, image) {
 // ----- DELETE -----
 function deleteUser(id) {
   callApi("DELETE", `${urlApi}/users/delete/${id}`);
+}
+
+async function getUserIDSession() {
+  try {
+    const response = await fetch("/getUserIDSession", {
+      method: "GET",
+    });
+    const data = await response.json();
+    const user_id = data.user_id;
+
+    if (user_id !== null) {
+      console.log("User ID:", user_id);
+      return user_id;
+    } else {
+      console.log("No se encontró user_id en la sesión");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error al obtener user_id:", error);
+    return null; // Manejar errores y devolver null en caso de error
+  }
 }

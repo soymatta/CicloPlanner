@@ -1,3 +1,28 @@
+// ------  METODOS HTTP ------ //
+const urlApi = "";
+
+async function callApi(method, url, data = null) {
+  let options = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      "User-Agent": "insomnia/8.1.0",
+    },
+    body: data ? JSON.stringify(data) : null,
+  };
+
+  try {
+    let response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`Error en métodos HTTP! : ${response.status}`);
+    }
+    let result = await response.json();
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // ------  FUNCIONES AUXILIARES ------ //
 
 function mostrarModal(titulo, contenido) {
@@ -75,22 +100,44 @@ function planificarRuta(posA, posB, mapObject) {
   });
 }
 
+function mostrarModalMapa(posA, posB) {
+  document.getElementById("titulo_modal").innerHTML = "Mapa";
+
+  // Configuracion Inicial de GMAPS
+  let mapOptions = {
+    center: { lat: 10.988609, lng: -74.7913632 }, // Cords de Barranquilla
+    zoom: 12,
+  };
+
+  let mapModal = document.getElementById("mapModal");
+
+  // Agrega los estilos utilizando el método setAttribute
+  mapModal.setAttribute("style", "width: 560px; height: 400px");
+
+  // Crear un mapa en el elemento con id "mapa"
+  let mapa = new google.maps.Map(mapModal, mapOptions);
+
+  planificarRuta(posA, posB, mapa);
+
+  $("#modalWeb").modal("show"); // Muestra el modal con jQuery
+}
+
 // ------  FUNCIONES DIRECTAS ------ //
 
-function buscarRuta() {
+async function buscarRuta(event) {
+  event.preventDefault();
   // Obtener valor del checkbox
-  let guardarRutaCheckbox = document.getElementById("guardarRuta");
+  let checkboxGuardar = document.getElementById("guardarRuta");
 
-  if (guardarRutaCheckbox.checked) {
+  if (checkboxGuardar.checked && getUserIDSession() == null) {
     window.location.href = "/login";
-    return false;
   } else {
     // Obtener las direcciones de salida y destino
     let direccionSalida = document.getElementById("dir_1").value;
     let direccionDestino = document.getElementById("dir_2").value;
 
     let mapOptions = {
-      center: { lat: 10.988609, lng: -74.7913632 }, // Cords de Barranquilla
+      center: { lat: 10.988609, lng: -74.7913632 }, // Coordenadas de Barranquilla
       zoom: 12,
     };
 
@@ -98,8 +145,20 @@ function buscarRuta() {
 
     planificarRuta(direccionSalida, direccionDestino, mapa);
 
-    return false;
+    let user_id = await getUserIDSession();
+
+    if (checkboxGuardar.checked) {
+      postRoute(
+        `${direccionSalida} --> ${direccionDestino}`,
+        direccionSalida,
+        direccionDestino,
+        user_id
+      );
+      console.log(`Ruta guardada al usuarioID: ${user_id}`);
+      mostrarModal("Planificador de rutas", "Ruta guardada con exito");
+    }
   }
+  return false;
 }
 
 function initializeAutocomplete(inputId) {

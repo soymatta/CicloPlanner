@@ -1,0 +1,95 @@
+{% extends 'layout.html'%} {% block header %}
+<header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
+  <a
+    href="/"
+    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+  >
+    <img
+      src="{{ url_for('static', filename='img/Logo.png') }}"
+      alt="CicloPlanner Logo"
+      width="32"
+      height="32"
+      class="ms-4 me-2"
+    />
+
+    <span class="fs-4">CicloPlanner</span>
+  </a>
+  <div
+    class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+  >
+    <a href="/community"
+      ><button type="button" class="btn btn-primary">Comentarios</button></a
+    >
+
+    <div class="dropdown text-end mx-4">
+      <a
+        href="#"
+        class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img
+          src="{{ url_for('static', filename=userImg) }}"
+          alt="Foto de perfil del usuario"
+          width="32"
+          height="32"
+          class="rounded-circle"
+        />
+      </a>
+      <ul class="dropdown-menu text-small">
+        <li>
+          <a class="dropdown-item" href="/community/routes">Mis rutas</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="/community/profile">Mi perfil</a>
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+{% endblock %}{% block content %}
+<section>
+  <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-lg-5">
+      <div class="col-lg-5 text-center text-lg-start">
+        <form
+          class="p-4 p-md-5 border rounded-3 bg-body-tertiary"
+          data-bitwarden-watching="1"
+          onsubmit="return buscarRuta(event)"
+        >
+          <div class="form-floating mb-3">
+            <h1 class="display-8 fw-bold lh-1 mb-3">Planificación de rutas</h1>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="dir_1" placeholder="" />
+            <label for="dir_1">Direccion de salida</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="dir_2" placeholder="" />
+            <label for="dir_2">Direccion de destino</label>
+          </div>
+          <div class="checkbox mb-3">
+            <label>
+              <input type="checkbox" id="guardarRuta" /> ¿Desea guardar esta
+              ruta?
+            </label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">
+            Buscar
+            <i class="bx bx-search-alt"></i>
+          </button>
+        </form>
+      </div>
+      <div class="col-md-10 mx-auto col-lg-7">
+        <div id="mapa" style="width: 100%; height: 400px"></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %} {% block scripts%}
+<script src="{{ url_for('static', filename='js/users.js') }}"></script>
+<script src="{{ url_for('static', filename='js/routes.js') }}"></script>
+{% endblock %}
