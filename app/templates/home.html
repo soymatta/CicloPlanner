@@ -54,6 +54,8 @@
   <div class="container col-xl-10 col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-lg-5">
       <div class="col-lg-5 text-center text-lg-start">
+        <!--TRABAJANDO FORM-->
+
         <form
           class="p-4 p-md-5 border rounded-3 bg-body-tertiary"
           data-bitwarden-watching="1"
@@ -84,14 +86,11 @@
           <hr class="my-4" />
           <small class="text-muted">Alertas:</small>
         </form>
+
+        <!--TRABAJANDO FORM-->
       </div>
       <div class="col-md-10 mx-auto col-lg-7">
-        <img
-          src="{{ url_for('static', filename='img/map.png') }}"
-          alt="Google Map"
-          class="d-block mx-lg-auto img-fluid rounded-3"
-          loading="lazy"
-        />
+        <div id="mapa" style="width: 100%; height: 400px"></div>
       </div>
     </div>
   </div>
@@ -145,30 +144,4 @@
   </div>
 </section>
 
-<!--MODAL-->
-<div
-  class="modal fade"
-  id="modalWeb"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="modalWebLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalWebLabel">
-          <p id="titulo_modal">Titulo</p>
-        </h5>
-
-        <button type="button" class="btn btn-primary" onclick="cerrarModal()">
-          x
-        </button>
-      </div>
-      <div class="modal-body">
-        <p id="contenido_modal">Contenido</p>
-      </div>
-    </div>
-  </div>
-</div>
-{% endblock %}
+{% endblock %} {% block scripts%} {% endblock %}

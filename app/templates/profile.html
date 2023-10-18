@@ -1,29 +1,90 @@
-{% extends "layout.html" %} {% block content %}
+{% extends 'layout.html'%} {% block header %}
+<header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
+  <a
+    href="/"
+    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+  >
+    <img
+      src="{{ url_for('static', filename='img/Logo.png') }}"
+      alt="CicloPlanner Logo"
+      width="32"
+      height="32"
+      class="ms-4 me-2"
+    />
 
-<!--MODAL-->
-<div
-  class="modal fade"
-  id="modalWeb"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="modalWebLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalWebLabel">
-          <p id="titulo_modal">Titulo</p>
-        </h5>
+    <span class="fs-4">CicloPlanner</span>
+  </a>
+  <div
+    class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+  >
+    <a href="/community"
+      ><button type="button" class="btn btn-primary">Comentarios</button></a
+    >
 
-        <button type="button" class="btn btn-primary" onclick="cerrarModal()">
-          x
+    <div class="dropdown text-end mx-4">
+      <a
+        href="#"
+        class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img
+          src="{{ url_for('static', filename=userImg) }}"
+          alt="Foto de perfil del usuario"
+          width="32"
+          height="32"
+          class="rounded-circle"
+        />
+      </a>
+      <ul class="dropdown-menu text-small">
+        <li>
+          <a class="dropdown-item" href="/community/routes">Mis rutas</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="/community/profile">Mi perfil</a>
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+{% endblock %}{% block content %}
+<div class="container col-xl-10 col-xxl-8 px-8">
+  <div class="row align-items-center g-lg-5">
+    <div class="col-lg-7">
+      <form
+        class="p-4 p-md-5 border rounded-3 bg-body-tertiary"
+        data-bitwarden-watching="1"
+      >
+        <div class="form-floating mb-3">
+          <h1 class="display-8 fw-bold lh-1 mb-3">Ajustes de usuario</h1>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="" placeholder="" />
+          <label for="">Cambiar nombre de usuario</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="" placeholder="" />
+          <label for="">Cambiar contraseña</label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary my-2">
+          Cambiar foto de perfil
         </button>
-      </div>
-      <div class="modal-body">
-        <p id="contenido_modal">Contenido</p>
-      </div>
+        <button class="w-100 btn btn-lg btn-primary my-2">
+          Eliminar todas mis rutas
+        </button>
+        <button class="w-100 btn btn-lg btn-primary my-2">
+          Eliminar mi cuenta
+        </button>
+      </form>
+    </div>
+
+    <div class="col-md-10 mx-auto col-lg-5">
+      <img class="r" src="../static/src/book1.jpg" alt="" height="516" />
     </div>
   </div>
 </div>
+
 {% endblock %}

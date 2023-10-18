@@ -1,86 +1,48 @@
+// ------  METODOS HTTP ------ //
+const urlApi = "http://127.0.0.1:5000";
+
+async function callApi(method, url, data = null) {
+  let options = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      "User-Agent": "insomnia/8.1.0",
+    },
+    body: data ? JSON.stringify(data) : null,
+  };
+
+  try {
+    let response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`Error en métodos HTTP! : ${response.status}`);
+    }
+    let result = await response.json();
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // ----------------------------- USERS HTTP ----------------------------- //
 
-// ----- GET ----- //
+// ----- GET -----
 function getUsers() {
-  let options = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "User-Agent": "insomnia/8.1.0",
-    },
-    body: "false",
-  };
-
-  fetch("http://localhost:5000/users/get", options)
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
-}
-// ----- POST ----- //
-function postUser(username, email, password, image, address) {
-  let options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "User-Agent": "insomnia/8.1.0",
-    },
-    body:
-      '{"username":"' +
-      username +
-      '","email":"' +
-      email +
-      '","password":"' +
-      password +
-      '","image":"' +
-      image +
-      '","address":"' +
-      address +
-      '"}',
-  };
-
-  fetch("http://localhost:5000/users/post", options)
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
+  callApi("GET", `${urlApi}/users/get`);
 }
 
-// ----- PUT ----- //
-function putUser(id, username, email, password, image, address) {
-  let options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "User-Agent": "insomnia/8.1.0",
-    },
-    body:
-      '{"username":"' +
-      username +
-      '","email":"' +
-      email +
-      '","password":"' +
-      password +
-      '","image":"' +
-      image +
-      '","address":"' +
-      address +
-      '"}',
-  };
-
-  fetch("http://localhost:5000/users/put/" + id, options)
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
+// ----- POST -----
+function postUser(username, password) {
+  let data = { username, password };
+  callApi("POST", `${urlApi}/users/post`, data);
 }
 
-// ----- DELETE ----- //
+// ----- PUT -----
+function putUser(id, username, password, image) {
+  let data = { username, password, image };
+  callApi("PUT", `${urlApi}/users/put/${id}`, data);
+}
+
+// ----- DELETE -----
 function deleteUser(id) {
-  let options = {
-    method: "DELETE",
-    headers: { "User-Agent": "insomnia/8.1.0" },
-  };
-
-  fetch("http://localhost:5000/users/delete/" + id, options)
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
+  callApi("DELETE", `${urlApi}/users/delete/${id}`);
 }

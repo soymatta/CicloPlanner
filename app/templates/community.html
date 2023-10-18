@@ -1,281 +1,52 @@
 {% extends "layout.html" %} {% block title %}Comunidad{% endblock %}{% block
 header %}
-<header class="p-3 mb-3 border-bottom">
-  <div class="container">
-    <div
-      class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+<header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
+  <a
+    href="/"
+    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+  >
+    <img
+      src="{{ url_for('static', filename='img/Logo.png') }}"
+      alt="CicloPlanner Logo"
+      width="32"
+      height="32"
+      class="ms-4 me-2"
+    />
+
+    <span class="fs-4">CicloPlanner</span>
+  </a>
+  <div
+    class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+  >
+    <a href="/community"
+      ><button type="button" class="btn btn-primary">Comentarios</button></a
     >
+
+    <div class="dropdown text-end mx-4">
       <a
-        href="/"
-        class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none"
+        href="#"
+        class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
       >
-        <svg
-          class="bi me-2"
-          width="40"
+        <img
+          src="{{ url_for('static', filename=userImg) }}"
+          alt="Foto de perfil del usuario"
+          width="32"
           height="32"
-          role="img"
-          aria-label="Bootstrap"
-        >
-          <use xlink:href="#bootstrap" />
-        </svg>
-      </a>
-
-      <ul
-        class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
-      >
-        <li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
-        <li>
-          <a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link px-2 link-body-emphasis">Customers</a>
-        </li>
-        <li>
-          <header class="p-3 mb-3 border-bottom">
-            <div class="container">
-              <div
-                class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
-              >
-                <a
-                  href="/"
-                  class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
-                >
-                  <svg
-                    class="bi me-2"
-                    width="40"
-                    height="32"
-                    role="img"
-                    aria-label="Bootstrap"
-                  >
-                    <use xlink:href="#bootstrap" />
-                  </svg>
-                </a>
-
-                <ul
-                  class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
-                >
-                  <li>
-                    <a href="#" class="nav-link px-2 link-secondary"
-                      >Overview</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-2 link-dark">Inventory</a>
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-2 link-dark">Customers</a>
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-2 link-dark">Products</a>
-                  </li>
-                </ul>
-
-                <div class="dropdown text-end">
-                  <a
-                    href="#"
-                    class="d-block link-dark text-decoration-none dropdown-toggle"
-                    id="dropdownUser1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <img
-                      src="https://github.com/mdo.png"
-                      alt="mdo"
-                      width="32"
-                      height="32"
-                      class="rounded-circle"
-                    />
-                  </a>
-                  <ul
-                    class="dropdown-menu text-small"
-                    aria-labelledby="dropdownUser1"
-                  >
-                    <li><a class="dropdown-item" href="#">Mis rutas</a></li>
-                    <li><a class="dropdown-item" href="#">Mi perfil</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li>
-                      <a class="dropdown-item" href="/logout">Cerrar sesión</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </header>
-          <header class="p-3 mb-3 border-bottom">
-            <div class="container">
-              <div
-                class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
-              >
-                <a
-                  href="/"
-                  class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
-                >
-                  <svg
-                    class="bi me-2"
-                    width="40"
-                    height="32"
-                    role="img"
-                    aria-label="Bootstrap"
-                  >
-                    <use xlink:href="#bootstrap" />
-                  </svg>
-                </a>
-
-                <ul
-                  class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
-                >
-                  <li>
-                    <a href="#" class="nav-link px-2 link-secondary"
-                      >Overview</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-2 link-dark">Inventory</a>
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-2 link-dark">Customers</a>
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-2 link-dark">Products</a>
-                  </li>
-                </ul>
-
-                <div class="dropdown text-end">
-                  <a
-                    href="#"
-                    class="d-block link-dark text-decoration-none dropdown-toggle"
-                    id="dropdownUser1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <img
-                      src="https://github.com/mdo.png"
-                      alt="mdo"
-                      width="32"
-                      height="32"
-                      class="rounded-circle"
-                    />
-                  </a>
-                  <ul
-                    class="dropdown-menu text-small"
-                    aria-labelledby="dropdownUser1"
-                  >
-                    <li><a class="dropdown-item" href="#">Mis rutas</a></li>
-                    <li><a class="dropdown-item" href="#">Mi perfil</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li>
-                      <a class="dropdown-item" href="/logout">Cerrar sesión</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </header>
-          <header class="p-3 mb-3 border-bottom">
-            <div class="container">
-              <div
-                class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
-              >
-                <a
-                  href="/"
-                  class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
-                >
-                  <svg
-                    class="bi me-2"
-                    width="40"
-                    height="32"
-                    role="img"
-                    aria-label="Bootstrap"
-                  >
-                    <use xlink:href="#bootstrap" />
-                  </svg>
-                </a>
-
-                <ul
-                  class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
-                >
-                  <li>
-                    <a href="#" class="nav-link px-2 link-secondary"
-                      >Overview</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-2 link-dark">Inventory</a>
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-2 link-dark">Customers</a>
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-2 link-dark">Products</a>
-                  </li>
-                </ul>
-
-                <div class="dropdown text-end">
-                  <a
-                    href="#"
-                    class="d-block link-dark text-decoration-none dropdown-toggle"
-                    id="dropdownUser1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <img
-                      src="https://github.com/mdo.png"
-                      alt="mdo"
-                      width="32"
-                      height="32"
-                      class="rounded-circle"
-                    />
-                  </a>
-                  <ul
-                    class="dropdown-menu text-small"
-                    aria-labelledby="dropdownUser1"
-                  >
-                    <li><a class="dropdown-item" href="#">Mis rutas</a></li>
-                    <li><a class="dropdown-item" href="#">Mi perfil</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li>
-                      <a class="dropdown-item" href="/logout">Cerrar sesión</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </header>
-          <a href="#" class="nav-link px-2 link-body-emphasis">Products</a>
-        </li>
-      </ul>
-
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Search..."
-          aria-label="Search"
+          class="rounded-circle"
         />
-      </form>
-
-      <div class="dropdown text-end">
-        <a
-          href="#"
-          class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <img
-            src="https://github.com/mdo.png"
-            alt="mdo"
-            width="32"
-            height="32"
-            class="rounded-circle"
-          />
-        </a>
-        <ul class="dropdown-menu text-small">
-          <li><a class="dropdown-item" href="#">Mis rutas</a></li>
-          <li><a class="dropdown-item" href="#">Mi perfil</a></li>
-          <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
-        </ul>
-      </div>
+      </a>
+      <ul class="dropdown-menu text-small">
+        <li>
+          <a class="dropdown-item" href="/community/routes">Mis rutas</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="/community/profile">Mi perfil</a>
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+      </ul>
     </div>
   </div>
 </header>
@@ -453,60 +224,4 @@ header %}
     </div>
   </div>
 </div>
-
-<!-- MODAL PARA COMENTARIOS -->
-
-<button
-  type="button"
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#exampleModal"
-  data-bs-whatever="@mdo"
->
-  Open modal for @mdo
-</button>
-
-<!-- MODAL -->
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label"
-              >Recipient:</label
-            >
-            <input type="text" class="form-control" id="recipient-name" />
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 {% endblock %}

@@ -5,11 +5,10 @@ USE cicloplanner;
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(30),
-    email VARCHAR(30) NOT NULL,
     password VARCHAR(30) NOT NULL,
-    image VARCHAR(300) NOT NULL,
-    address VARCHAR(300)
+    image VARCHAR(300) DEFAULT 'profilePhotos/default.jpg' NOT NULL
 );
+
 
 CREATE TABLE IF NOT EXISTS comments (
     id INT AUTO_INCREMENT PRIMARY KEY,

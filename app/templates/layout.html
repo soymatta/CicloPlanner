@@ -62,6 +62,36 @@
       </ul>
     </header>
     {% endblock %} {% block content%}{% endblock %}
+    <!--MODAL-->
+    <div
+      class="modal fade"
+      id="modalWeb"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalWebLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalWebLabel">
+              <p id="titulo_modal">Titulo</p>
+            </h5>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="cerrarModal()"
+            >
+              x
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="contenido_modal">Contenido</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!--Bootstrap JS-->
     <script
@@ -80,9 +110,16 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
+    <!-- GMaps JS -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIxYzRB_ERZgXg6qr8pTxoof1GYCqPkLE&libraries=places"
+      async
+      defer
+    ></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!--Custom JS-->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts%}{% endblock %}
   </body>
 </html>

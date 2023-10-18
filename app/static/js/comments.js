@@ -1,74 +1,48 @@
+// ------  METODOS HTTP ------ //
+const urlApi = "http://127.0.0.1:5000";
+
+async function callApi(method, url, data = null) {
+  let options = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      "User-Agent": "insomnia/8.1.0",
+    },
+    body: data ? JSON.stringify(data) : null,
+  };
+
+  try {
+    let response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`Error en métodos HTTP! : ${response.status}`);
+    }
+    let result = await response.json();
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // ----------------------------- COMMENTS HTTP ----------------------------- //
 
-// ----- GET ----- //
-function getComment() {
-  let options = {
-    method: "GET",
-    headers: { "User-Agent": "insomnia/8.1.0" },
-  };
-
-  fetch("http://localhost:5000/comments/get", options)
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
+// ----- GET -----
+function getComments() {
+  callApi("GET", `${urlApi}/comments/get`);
 }
-// ----- POST ----- //
+
+// ----- POST -----
 function postComment(content, date, user_id) {
-  let options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "User-Agent": "insomnia/8.1.0",
-    },
-    body:
-      '{"content":"' +
-      content +
-      '","date":"' +
-      date +
-      '","user_id":' +
-      user_id +
-      "}",
-  };
-
-  fetch("http://localhost:5000/comments/post", options)
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
+  let data = { content, date, user_id };
+  callApi("POST", `${urlApi}/comments/post`, data);
 }
 
-// ----- PUT ----- //
+// ----- PUT -----
 function putComment(id, content, date, user_id) {
-  let options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "User-Agent": "insomnia/8.1.0",
-    },
-    body:
-      '{"content":"' +
-      content +
-      '","date":"' +
-      date +
-      '","user_id":' +
-      user_id +
-      "}",
-  };
-
-  fetch("http://localhost:5000/comments/put/" + id, options)
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
+  let data = { content, date, user_id };
+  callApi("PUT", `${urlApi}/comments/put/${id}`, data);
 }
 
-// ----- DELETE ----- //
+// ----- DELETE -----
 function deleteComment(id) {
-  let options = {
-    method: "DELETE",
-    headers: { "User-Agent": "insomnia/8.1.0" },
-  };
-
-  fetch("http://localhost:5000/comments/delete/" + id, options)
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
+  callApi("DELETE", `${urlApi}/comments/delete/${id}`);
 }

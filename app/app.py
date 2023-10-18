@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, session, flash
+from flask import render_template, request, redirect, url_for, session, flash, jsonify
 
 from db.db import app, db
 from Models.users_models import Users
@@ -55,7 +55,7 @@ def register():
             else: 
                 if password == passwordVerification :
                     print("Las contraseñas son iguales, se puede crear el usuario")
-                    db.session.add(Users(username= username,email='emailDefault',password=password,image='imagenDefault',address='direccionDefault'))
+                    db.session.add(Users(username= username,password=password))
                     db.session.commit()
                     print("Usuario creado con exito")
                     return redirect(url_for('login'))
@@ -74,19 +74,37 @@ def logout():
 @app.route("/community")
 def community():
     if 'user_id' in session:
-        return render_template('community.html')
+        user_id = session['user_id']
+        user = Users.query.get(user_id)
+        return render_template('community.html', userImg=user.image)
     else: 
         print("No hay usuario Ingresado")
         return redirect(url_for('login'))
 
-@app.route("/profile/<int:id>")
+@app.route("/community/profile")
 def profile():
-    return render_template('profile.html')
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = Users.query.get(user_id)
+        return render_template('profile.html', userImg=user.image)
+    else: 
+        return redirect(url_for('login'))
 
-@app.route("/routes/<int:id>")
+@app.route("/community/routes")
 def routes():
-    return render_template('routes.html')
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = Users.query.get(user_id)
+        return render_template('routes.html', userImg=user.image)
+    else: 
+        return redirect(url_for('login'))
 
+@app.route('/checkSession', methods=['GET'])
+def checkSession():
+    if 'user_id' in session:
+        return jsonify({'Sesion iniciada': True, 'user_id': session['user_id']})
+    else:
+        return jsonify({'Sesion iniciada': False})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
