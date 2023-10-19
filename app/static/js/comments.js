@@ -7,7 +7,7 @@ function getComments() {
 
 // ----- POST -----
 function postComment(content, date, user_id) {
-  let data = { content, date, user_id };
+  let data = { content, date, user_id };+
   callApi("POST", `${urlApi}/comments/post`, data);
 }
 

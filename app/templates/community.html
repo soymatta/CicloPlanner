@@ -61,7 +61,11 @@ header %}
     ruta.
     <br />¿Que esperas?, haz tu comentario.
   </p>
-  <button class="btn btn-primary has-icon btn-block" type="button">
+  <button
+    class="btn btn-primary has-icon btn-block"
+    type="button"
+    onclick="nuevoComentario()"
+  >
     <i class="bx bx-plus"></i>
     Nuevo comentario
   </button>
@@ -70,17 +74,31 @@ header %}
 <div class="container">
   <div class="card m-4">
     <div class="card-body">
-      <h5 class="card-title">María_23</h5>
-      <p class="card-text">
-        ¡Excelente iniciativa! Estoy emocionada por tener una herramienta que
-        finalmente nos ayude a planificar rutas seguras y conectadas. ¡A
-        pedalear por ciudades más amigables con las bicis!
-      </p>
+      <h5 class="card-title">
+        (User que comento)
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          onclick='{
+            deleteComment(comentario.id);
+            mostrarModal("Comunidad", "Comentario eliminado");
+          }'
+        >
+          <i class="bx bx-trash"></i>
+        </button>
+      </h5>
+      <p class="card-text">(contenido de comentario)</p>
       <p class="text-muted">
-        respondió hace
-        <span class="text-secondary font-weight-bold">2 horas</span>
+        respondió hace<span class="text-secondary font-weight-bold"
+          >(tiempo desde que comento)</span
+        >
       </p>
     </div>
   </div>
 </div>
+
+{% endblock %} {% block scripts%}
+<script src="{{ url_for('static', filename='js/users.js') }}"></script>
+<script src="{{ url_for('static', filename='js/comments.js') }}"></script>
+<script src="{{ url_for('static', filename='js/generarComentarios.js') }}"></script>
 {% endblock %}

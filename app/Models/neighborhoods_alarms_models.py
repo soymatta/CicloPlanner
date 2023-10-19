@@ -13,6 +13,7 @@ class NeighborhoodsAlarms(db.Model):
 class NeighborhoodsAlarmsSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = NeighborhoodsAlarms
+        fields = ("id", "neighborhoods_id", "alarms_id")
 
 neighborhoodAlarm_schema = NeighborhoodsAlarmsSchema()
 neighborhoodsAlarms_schema = NeighborhoodsAlarmsSchema(many=True)

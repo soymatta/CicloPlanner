@@ -29,23 +29,3 @@ function putRoute(id, nombre, start, destiny, user_id) {
 function deleteRoute(id) {
   callApi("DELETE", `${urlApi}/routes/delete/${id}`);
 }
-
-// Obtener todas las rutas de un Usuario por su ID
-async function getRoutesByUserId(userId) {
-  try {
-    const response = await fetch(`${urlApi}/routes/get?user_id=${userId}`, {
-      method: "GET",
-    });
-
-    if (response.status === 200) {
-      const data = await response.json();
-      return data;
-    } else {
-      console.error("Error al obtener rutas para el usuario con ID:", userId);
-      return null;
-    }
-  } catch (error) {
-    console.error("Error al obtener rutas:", error);
-    return null;
-  }
-}

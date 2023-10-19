@@ -16,6 +16,7 @@ class Routes(db.Model):
 class RoutesSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Routes
+        fields = ("id", "nombre", "start","destiny" ,"user_id")
 
 route_schema = RoutesSchema()
 routes_schema = RoutesSchema(many=True)

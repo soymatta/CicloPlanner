@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, session, flash, j
 
 from db.db import app, db
 from Models.users_models import Users
+from Models.routes_models import Routes
 
 from Routes.users_routes import users_routes
 from Routes.routes_routes import routes_routes
@@ -113,5 +114,20 @@ def get_user_id():
     user_id = session.get('user_id', None)
     return jsonify({'user_id': user_id})
 
+@app.route('/community/routes/byUser', methods=['GET'])
+def get_routes_by_id():
+    if 'user_id' in session:
+        user_id = session['user_id']        
+        routes = Routes.query.filter_by(user_id=user_id).all()
+
+        return jsonify([{
+            'id': route.id,
+            'nombre': route.nombre,
+            'start': route.start,
+            'destiny': route.destiny,
+        } for route in routes])
+    else:
+        return redirect(url_for('login'))
+    
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

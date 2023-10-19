@@ -3,7 +3,7 @@ from db.db import app, db, ma
 class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(255), nullable=True)
-    date = db.Column(db.Date)
+    date = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __init__(self, content, date, user_id):
@@ -14,6 +14,7 @@ class Comments(db.Model):
 class CommentsSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Comments
+        fields = ("id", "content", "date", "user_id")
 
 comment_schema = CommentsSchema()
 comments_schema = CommentsSchema(many=True)

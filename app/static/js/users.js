@@ -14,7 +14,7 @@ function postUser(username, password) {
 // ----- PUT -----
 function putUser(id, username, password, image) {
   let data = { username, password, image };
-  callApi("PUT", `${urlApi}/users/put/${id}`, data);
+  callApi("PUT", `${urlApi}/user s/put/${id}`, data);
 }
 
 // ----- DELETE -----
@@ -39,6 +39,6 @@ async function getUserIDSession() {
     }
   } catch (error) {
     console.error("Error al obtener user_id:", error);
-    return null; // Manejar errores y devolver null en caso de error
+    return null;
   }
 }
