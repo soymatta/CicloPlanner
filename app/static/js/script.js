@@ -1,5 +1,5 @@
 // ------  METODOS HTTP ------ //
-const urlApi = "";
+let urlApi = "";
 
 async function callApi(method, url, data = null) {
   let options = {
@@ -43,7 +43,7 @@ function mostrarModalMapa(posA, posB) {
 
   let mapModal = document.getElementById("mapModal");
 
-  // Agrega los estilos utilizando el método setAttribute
+  // Agrega las dimensiones del mapa
   mapModal.setAttribute("style", "width: 560px; height: 400px");
 
   // Crear un mapa en el elemento con id "mapa"
@@ -59,85 +59,68 @@ function cerrarModal() {
 }
 
 function getDataTimeNow() {
-  const fecha = new Date();
-  const año = fecha.getFullYear();
-  const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
-  const dia = fecha.getDate().toString().padStart(2, "0");
-  const hora = fecha.getHours().toString().padStart(2, "0");
-  const minutos = fecha.getMinutes().toString().padStart(2, "0");
-  const segundos = fecha.getSeconds().toString().padStart(2, "0");
+  let fecha = new Date();
+  let año = fecha.getFullYear();
+  let mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
+  let dia = fecha.getDate().toString().padStart(2, "0");
+  let hora = fecha.getHours().toString().padStart(2, "0");
+  let minutos = fecha.getMinutes().toString().padStart(2, "0");
+  let segundos = fecha.getSeconds().toString().padStart(2, "0");
 
   // Formatea la fecha y hora en el formato deseado
   return `${año}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
 }
 
-function checkSession() {
-  fetch("/checkSession", {
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.session_started) {
-        console.log("Sesión iniciada. Usuario ID:", data.user_id);
-        return true;
-      } else {
-        console.log("No hay sesión iniciada");
-        return false;
-      }
-    })
-    .catch((error) => {
-      console.error("Error al verificar la sesión:", error);
-    });
-}
-
 function planificarRuta(posA, posB, mapObject) {
-  // Crear objetos para las direcciones de salida y destino
-  let geocoder = new google.maps.Geocoder();
+  // Crear un objeto Promesa
+  return new Promise((resolve, reject) => {
+    let geocoder = new google.maps.Geocoder();
+    let requestA = { address: posA };
+    let requestB = { address: posB };
+    let salidaLatLng, destinoLatLng;
 
-  // Geocodificar la dirección de salida
-  geocoder.geocode({ address: posA }, function (results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      let salidaLatLng = results[0].geometry.location;
+    // Geocodificar la dirección de salida
+    geocoder.geocode(requestA, (results, status) => {
+      if (status === google.maps.GeocoderStatus.OK) {
+        salidaLatLng = results[0].geometry.location;
+        // Geocodificar la dirección de destino
+        geocoder.geocode(requestB, (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK) {
+            destinoLatLng = results[0].geometry.location;
 
-      // Geocodificar la dirección de destino
-      geocoder.geocode({ address: posB }, function (results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-          let destinoLatLng = results[0].geometry.location;
+            // Crear una ruta entre la dirección de salida y destino
+            let directionsService = new google.maps.DirectionsService();
+            let directionsDisplay = new google.maps.DirectionsRenderer();
+            directionsDisplay.setMap(mapObject);
 
-          // Crear una ruta entre la dirección de salida y destino
-          let directionsService = new google.maps.DirectionsService();
-          let directionsDisplay = new google.maps.DirectionsRenderer();
-          directionsDisplay.setMap(mapObject);
+            let solicitudRuta = {
+              origin: salidaLatLng,
+              destination: destinoLatLng,
+              travelMode: google.maps.TravelMode.DRIVING,
+            };
 
-          let solicitudRuta = {
-            origin: salidaLatLng,
-            destination: destinoLatLng,
-            travelMode: google.maps.TravelMode.DRIVING,
-          };
-
-          directionsService.route(solicitudRuta, function (result, status) {
-            if (status === google.maps.DirectionsStatus.OK) {
-              directionsDisplay.setDirections(result);
-            }
-          });
-        } else {
-          mostrarModal(
-            "Planificador de rutas",
-            "No se pudo geo-localizar la dirección de destino."
-          );
-        }
-      });
-    } else {
-      mostrarModal(
-        "Planificador de rutas",
-        "No se pudo geo-localizar la dirección de salida."
-      );
-    }
+            // Solicitar la ruta
+            directionsService.route(solicitudRuta, (result, status) => {
+              if (status === google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(result); // Imprime la ruta que solicito
+                resolve(); // Resuelve la promesa cuando la ruta se ha planificado con éxito
+              } else {
+                reject("No se pudo planificar la ruta.");
+              }
+            });
+          } else {
+            reject("No se pudo geolocalizar la dirección de destino.");
+          }
+        });
+      } else {
+        reject("No se pudo geolocalizar la dirección de salida.");
+      }
+    });
   });
 }
 
 function mostrarModalInput(titulo, labelInput, labelButton) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     mostrarModal(
       titulo,
       `<label for="inputModal" class="col-form-label">${labelInput}</label>
@@ -145,9 +128,9 @@ function mostrarModalInput(titulo, labelInput, labelButton) {
       <button id="btnInputModal" class="btn btn-primary btn-block" type="button">${labelButton}</button>`
     );
 
-    const btnInputModal = document.getElementById("btnInputModal");
+    let btnInputModal = document.getElementById("btnInputModal");
     btnInputModal.addEventListener("click", () => {
-      const inputModalValue = document.getElementById("inputModal").value;
+      let inputModalValue = document.getElementById("inputModal").value;
       $("#modalWeb").modal("hide");
       resolve(inputModalValue);
     });
@@ -175,6 +158,7 @@ async function buscarRuta(event) {
   let checkboxGuardar = document.getElementById("guardarRuta");
   let user_id = await getUserIDSession();
 
+  // Si seleccciono guardar ruta y no esta en session
   if (checkboxGuardar.checked && getUserIDSession() == null) {
     window.location.href = "/login";
   } else {
@@ -191,6 +175,7 @@ async function buscarRuta(event) {
 
     planificarRuta(direccionSalida, direccionDestino, mapa);
 
+    // Verifica para gfuardar la ruta y que las direcciones no esten vacias
     if (
       checkboxGuardar.checked &&
       direccionSalida != "" &&
@@ -210,81 +195,85 @@ async function buscarRuta(event) {
 }
 
 async function generarContenidoRuta() {
-  const container = document.querySelector(".container");
+  let container = document.querySelector(".container");
 
-  let rutas = await callApi("GET", `${urlApi}/community/routes/byUser`);
+  let rutas = await callApi("GET", `${urlApi}/routes/get`);
+  let userIDSession = await getUserIDSession();
+
   for (let i = 0; i < rutas.length; i++) {
     let ruta = rutas[i];
     console.log("destiny:", ruta.destiny);
     console.log("id:", ruta.id);
     console.log("nombre:", ruta.nombre);
     console.log("start:", ruta.start);
+    console.log("user_id:", ruta.user_id);
 
-    // Generar IDs únicos para esta iteración
-    let dirAId = `dirA_${i}`;
-    let dirBId = `dirB_${i}`;
+    if (userIDSession == ruta.user_id) {
+      // Generar IDs únicos para esta iteración
+      let dirAId = `dirA_${i}`;
+      let dirBId = `dirB_${i}`;
 
-    // Crear elementos HTML para cada ruta
-    const card = document.createElement("div");
-    card.className = "card m-4";
+      // Crear elementos HTML para cada ruta
+      let card = document.createElement("div");
+      card.className = "card m-4";
 
-    const cardBody = document.createElement("div");
-    cardBody.className = "card-body";
+      let cardBody = document.createElement("div");
+      cardBody.className = "card-body";
 
-    const cardTitle = document.createElement("h5");
-    cardTitle.className = "card-title";
-    cardTitle.innerHTML = ruta.nombre;
+      let cardTitle = document.createElement("h5");
+      cardTitle.className = "card-title";
+      cardTitle.innerHTML = ruta.nombre;
 
-    const buttonEditar = document.createElement("button");
-    buttonEditar.className = "btn btn-outline-info";
-    buttonEditar.innerHTML = '<i class="bx bx-edit"></i>';
-    buttonEditar.onclick = async () => {
-      editarNombreRuta(
-        ruta.id,
-        ruta.start,
-        ruta.destiny,
-        await getUserIDSession()
-      );
-    };
+      let buttonEditar = document.createElement("button");
+      buttonEditar.className = "btn btn-outline-info";
+      buttonEditar.innerHTML = '<i class="bx bx-edit"></i>';
+      buttonEditar.onclick = async () => {
+        editarNombreRuta(
+          ruta.id,
+          ruta.start,
+          ruta.destiny,
+          await getUserIDSession()
+        );
+      };
 
-    const cardText = document.createElement("p");
-    cardText.className = "card-text";
-    cardText.innerHTML = `
+      let cardText = document.createElement("p");
+      cardText.className = "card-text";
+      cardText.innerHTML = `
       Direccion de salida: <span id="${dirAId}">${ruta.start}</span> <br />
       Direccion de destino: <span id="${dirBId}">${ruta.destiny}</span>
     `;
 
-    const cardButton = document.createElement("p");
-    cardButton.className = "text-muted";
+      let cardButton = document.createElement("p");
+      cardButton.className = "text-muted";
 
-    const buttonMostrar = document.createElement("button");
-    buttonMostrar.className = "btn btn-primary btn-block";
-    buttonMostrar.innerHTML = 'Mostrar ruta <i class="bx bx-map-alt"></i>';
-    buttonMostrar.onclick = () => {
-      mostrarModalMapa(
-        document.getElementById(dirAId).textContent,
-        document.getElementById(dirBId).textContent
-      );
-    };
+      let buttonMostrar = document.createElement("button");
+      buttonMostrar.className = "btn btn-primary btn-block";
+      buttonMostrar.innerHTML = 'Mostrar ruta <i class="bx bx-map-alt"></i>';
+      buttonMostrar.onclick = () => {
+        mostrarModalMapa(
+          document.getElementById(dirAId).textContent,
+          document.getElementById(dirBId).textContent
+        );
+      };
 
-    const buttonEliminar = document.createElement("button");
-    buttonEliminar.className = "btn btn-danger btn-block mx-3";
-    buttonEliminar.innerHTML = 'Eliminar ruta <i class="bx bx-trash"></i>';
-    buttonEliminar.onclick = () => {
-      deleteRoute(ruta.id);
-      mostrarModal("Rutas", "Ruta eliminada con exito");
-      window.location.href = "/community/routes";
-    };
+      let buttonEliminar = document.createElement("button");
+      buttonEliminar.className = "btn btn-danger btn-block mx-3";
+      buttonEliminar.innerHTML = 'Eliminar ruta <i class="bx bx-trash"></i>';
+      buttonEliminar.onclick = () => {
+        deleteRoute(ruta.id);
+        mostrarModal("Rutas", "Ruta eliminada con exito");
+      };
 
-    // Agregar elementos al DOM
-    cardButton.appendChild(buttonMostrar);
-    cardButton.appendChild(buttonEliminar);
-    cardBody.appendChild(cardTitle);
-    cardBody.appendChild(buttonEditar);
-    cardBody.appendChild(cardText);
-    cardBody.appendChild(cardButton);
-    card.appendChild(cardBody);
-    container.appendChild(card);
+      // Agregar elementos al DOM
+      cardButton.appendChild(buttonMostrar);
+      cardButton.appendChild(buttonEliminar);
+      cardBody.appendChild(cardTitle);
+      cardBody.appendChild(buttonEditar);
+      cardBody.appendChild(cardText);
+      cardBody.appendChild(cardButton);
+      card.appendChild(cardBody);
+      container.appendChild(card);
+    }
   }
 }
 
@@ -298,12 +287,10 @@ async function nuevoComentario() {
   postComment(commentContent, getDataTimeNow(), await getUserIDSession());
 
   mostrarModal("Comunidad", "Comentario subido");
-
-  window.location.href = "/community";
 }
 
 async function generarContenidoComentarios() {
-  const container = document.querySelector(".container");
+  let container = document.querySelector(".container");
 
   let comentarios = await callApi("GET", `${urlApi}/comments/get`);
   let usuarios = await callApi("GET", `${urlApi}/users/get`);
@@ -323,10 +310,10 @@ async function generarContenidoComentarios() {
 
       if (comentario.user_id == usuario.id) {
         // Crear elementos HTML para cada comentario
-        const card = document.createElement("div");
+        let card = document.createElement("div");
         card.className = "card m-4";
 
-        const cardBody = document.createElement("div");
+        let cardBody = document.createElement("div");
         cardBody.className = "card-body";
 
         // Condicionar solo para que le salga al dueño del comentario
@@ -335,30 +322,29 @@ async function generarContenidoComentarios() {
           btnEliminarComentario = `<button type="button" class="btn btn-outline-danger" onclick='deleteComment(${comentario.id}),mostrarModal("Comunidad","Comentario eliminado");window.location.href = "/community";'><i class="bx bx-trash"></i></button>`;
         } else btnEliminarComentario = "";
 
-        const cardTitle = document.createElement("h5");
+        let cardTitle = document.createElement("h5");
         cardTitle.className = "card-title";
         cardTitle.innerHTML = `${usuario.username} ${btnEliminarComentario}`;
         cardBody.appendChild(cardTitle);
 
-        const cardText = document.createElement("p");
+        let cardText = document.createElement("p");
         cardText.className = "card-text";
         cardText.innerHTML = comentario.content;
 
         // Formatear fecha
-        const fechaObjeto = new Date(comentario.date);
+        let fechaObjeto = new Date(comentario.date);
 
-        const dia = fechaObjeto.getDate().toString().padStart(2, "0");
-        const mes = (fechaObjeto.getMonth() + 1).toString().padStart(2, "0");
-        const año = fechaObjeto.getFullYear();
+        let dia = fechaObjeto.getDate().toString().padStart(2, "0");
+        let mes = (fechaObjeto.getMonth() + 1).toString().padStart(2, "0");
+        let año = fechaObjeto.getFullYear();
 
-        const fechaFormateada = `${dia}/${mes}/${año}`;
+        let fechaFormateada = `${dia}/${mes}/${año}`;
 
-        const cardFooter = document.createElement("p");
+        let cardFooter = document.createElement("p");
         cardFooter.className = "text-muted";
         cardFooter.innerHTML = `Comentó el <span class="text-secondary font-weight-bold">${fechaFormateada}</span>`;
 
         // Agregar elementos al DOM
-
         cardBody.appendChild(cardText);
         cardBody.appendChild(cardFooter);
         card.appendChild(cardBody);
@@ -369,13 +355,230 @@ async function generarContenidoComentarios() {
 }
 
 function initializeAutocomplete(inputId) {
-  const input = document.getElementById(inputId);
-  const autocomplete = new google.maps.places.Autocomplete(input, {
+  let input = document.getElementById(inputId);
+  let autocomplete = new google.maps.places.Autocomplete(input, {
     types: ["geocode"],
     componentRestrictions: { country: "CO" },
   });
 }
 
+async function cambiarUsername() {
+  let userIDSession = await getUserIDSession();
+  let newUsername = await mostrarModalInput(
+    "Cuenta",
+    "¿Cual será tu nuevo nombre de usuario? (Debe ser mayor a 3 caracteres)",
+    "Cambiar"
+  );
+  let userNameRepetido = false;
+
+  if (newUsername.length > 3) {
+    let usuarios = await callApi("GET", `${urlApi}/users/get`);
+
+    for (let i = 0; i < usuarios.length; i++) {
+      let usuario = usuarios[i];
+      if (usuario.username == newUsername) {
+        mostrarModal(
+          "Cuenta",
+          "Este nombre de usuario ya esta en uso, deberias usar otro"
+        );
+        userNameRepetido = true;
+        break;
+      }
+    }
+
+    if (!userNameRepetido) {
+      for (let j = 0; j < usuarios.length; j++) {
+        let usuario = usuarios[j];
+        console.log("id:", usuario.id);
+        console.log("username:", usuario.username);
+        console.log("password:", usuario.password);
+        console.log("image:", usuario.image);
+
+        if (userIDSession == usuario.id) {
+          putUser(usuario.id, newUsername, usuario.password, usuario.image);
+          mostrarModal("Cuenta", "Tu nombre de usuario se actualizo");
+          break;
+        }
+      }
+    }
+  } else console.log("El nombre de usuario es menor a 4 caracteres");
+}
+
+async function cambiarPassword() {
+  let userIDSession = await getUserIDSession();
+  let newPassword = document.getElementById("changePassword").value;
+  let passwordVerification = await mostrarModalInput(
+    "Cuenta",
+    "Repite la nueva contraseña, debe ser mayor a 3 caracteres",
+    "Verificar contraseña"
+  );
+
+  if (newPassword == passwordVerification && newPassword.length > 3) {
+    let usuarios = await callApi("GET", `${urlApi}/users/get`);
+
+    for (let j = 0; j < usuarios.length; j++) {
+      let usuario = usuarios[j];
+      console.log("id:", usuario.id);
+      console.log("username:", usuario.username);
+      console.log("password:", usuario.password);
+      console.log("image:", usuario.image);
+
+      if (userIDSession == usuario.id) {
+        putUser(usuario.id, usuario.username, newPassword, usuario.image);
+        mostrarModal("Cuenta", "Tu contraseña se actualizo");
+        break;
+      }
+    }
+  } else {
+    console.log("La contraseña es menor a 4 caracteres");
+    console.log(
+      "O la contraseña y su verificaicon no coincide, reintentalo nuevamente"
+    );
+  }
+}
+
+async function cambiarImage() {
+  let userIDSession = await getUserIDSession();
+
+  let newImgRoute; // Pedir imagen
+
+  let usuarios = await callApi("GET", `${urlApi}/users/get`);
+
+  for (let j = 0; j < usuarios.length; j++) {
+    let usuario = usuarios[j];
+    console.log("id:", usuario.id);
+    console.log("username:", usuario.username);
+    console.log("password:", usuario.password);
+    console.log("image:", usuario.image);
+
+    if (userIDSession == usuario.id) {
+      putUser(usuario.id, usuario.username, usuario.password, newImgRoute);
+      mostrarModal("Cuenta", "Tu foto de perfil se actualizo");
+      break;
+    }
+  }
+}
+
+async function eliminarRutas() {
+  let userIDSession = await getUserIDSession();
+  let confirmacion = await mostrarModalInput(
+    "Cuenta",
+    'Esta accion borrara todas las rutas vinculadas con tu usuario, para continuar introduce "ACEPTO"',
+    "Introduce la palabra"
+  );
+  if (confirmacion == "ACEPTO") {
+    let usuarios = await callApi("GET", `${urlApi}/users/get`);
+    let rutas = await callApi("GET", `${urlApi}/routes/get`);
+
+    for (let j = 0; j < usuarios.length; j++) {
+      let usuario = usuarios[j];
+      console.log("id:", usuario.id);
+      console.log("username:", usuario.username);
+      console.log("password:", usuario.password);
+      console.log("image:", usuario.image);
+
+      if (userIDSession == usuario.id) {
+        for (let i = 0; i < rutas.length; i++) {
+          let ruta = rutas[i];
+          console.log("id:", ruta.id);
+          console.log("user_id", ruta.user_id);
+          if (userIDSession == ruta.user_id) {
+            deleteRoute(ruta.id);
+          }
+        }
+        mostrarModal("Cuenta", "Todas tus rutas han sido eliminadas");
+        break;
+      }
+    }
+  } else console.log('La palabra "ACEPTO" no fue reconocida');
+}
+
+async function eliminarComentarios() {
+  let userIDSession = await getUserIDSession();
+  let confirmacion = await mostrarModalInput(
+    "Cuenta",
+    'Esta accion borrara todas las comentarios vinculadas con tu usuario, para continuar introduce "ACEPTO"',
+    "Introduce la palabra"
+  );
+  if (confirmacion == "ACEPTO") {
+    let usuarios = await callApi("GET", `${urlApi}/users/get`);
+    let comentarios = await callApi("GET", `${urlApi}/comments/get`);
+
+    for (let j = 0; j < usuarios.length; j++) {
+      let usuario = usuarios[j];
+      console.log("id:", usuario.id);
+      console.log("username:", usuario.username);
+      console.log("password:", usuario.password);
+      console.log("image:", usuario.image);
+
+      if (userIDSession == usuario.id) {
+        for (let i = 0; i < comentarios.length; i++) {
+          let comentario = comentarios[i];
+          console.log("id:", comentario.id);
+          console.log("user_id", comentario.user_id);
+          if (userIDSession == comentario.user_id) {
+            deleteComment(comentario.id);
+          }
+        }
+        mostrarModal("Cuenta", "Todas tus comentarios han sido eliminadas");
+        break;
+      }
+    }
+  } else console.log('La palabra "ACEPTO" no fue reconocida');
+}
+
+async function eliminarCuenta() {
+  let userIDSession = await getUserIDSession();
+  let confirmacion = await mostrarModalInput(
+    "Cuenta",
+    'Esta accion borrara tu cuenta, para continuar introduce "ACEPTO"',
+    "Introduce la palabra"
+  );
+
+  if (confirmacion == "ACEPTO") {
+    let usuarios = await callApi("GET", `${urlApi}/users/get`);
+
+    for (let j = 0; j < usuarios.length; j++) {
+      let usuario = usuarios[j];
+      console.log("id:", usuario.id);
+      console.log("username:", usuario.username);
+      console.log("password:", usuario.password);
+      console.log("image:", usuario.image);
+
+      if (userIDSession == usuario.id) {
+        let rutas = await callApi("GET", `${urlApi}/routes/get`);
+        let comentarios = await callApi("GET", `${urlApi}/comments/get`);
+
+        for (let i = 0; i < rutas.length; i++) {
+          let ruta = rutas[i];
+          console.log("id:", ruta.id);
+          console.log("user_id", ruta.user_id);
+          if (userIDSession == ruta.user_id) {
+            deleteRoute(ruta.id);
+          }
+        }
+        console.log("Todas las rutas eliminadas");
+        for (let k = 0; k < comentarios.length; k++) {
+          let comentario = comentarios[k];
+          console.log("id:", comentario.id);
+          console.log("user_id", comentario.user_id);
+          if (userIDSession == comentario.user_id) {
+            deleteComment(comentario.id);
+            console.log("Eliminado el comentario");
+            console.log("id:", comentario.id);
+            console.log("user_id", comentario.user_id);
+          }
+        }
+        console.log("Todas los comentarios eliminados");
+
+        deleteUser(userIDSession);
+        mostrarModal("Cuenta", "Cuenta eliminada con exito");
+        window.location.href = "/logout";
+        break;
+      }
+    }
+  } else console.log('La palabra "ACEPTO" no fue reconocida');
+}
 // INICIO DE LA EJECUCION
 
 window.onload = function () {

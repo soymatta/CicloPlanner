@@ -71,32 +71,6 @@ header %}
   </button>
 </div>
 
-<div class="container">
-  <div class="card m-4">
-    <div class="card-body">
-      <h5 class="card-title">
-        (User que comento)
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          onclick='{
-            deleteComment(comentario.id);
-            mostrarModal("Comunidad", "Comentario eliminado");
-          }'
-        >
-          <i class="bx bx-trash"></i>
-        </button>
-      </h5>
-      <p class="card-text">(contenido de comentario)</p>
-      <p class="text-muted">
-        respondió hace<span class="text-secondary font-weight-bold"
-          >(tiempo desde que comento)</span
-        >
-      </p>
-    </div>
-  </div>
-</div>
-
 {% endblock %} {% block scripts%}
 <script src="{{ url_for('static', filename='js/users.js') }}"></script>
 <script src="{{ url_for('static', filename='js/comments.js') }}"></script>

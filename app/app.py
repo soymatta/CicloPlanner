@@ -1,19 +1,22 @@
-from flask import render_template, request, redirect, url_for, session, flash, jsonify
+from flask import render_template, request, session, jsonify
 
+# Importar la configuracion de la base de datos y la app de Flask
 from db.db import app, db
+# Importar el modelo de User necesario para consultas
 from Models.users_models import Users
-from Models.routes_models import Routes
 
+# Imortar todas las rutas de las APIs
 from Routes.users_routes import users_routes
 from Routes.routes_routes import routes_routes
 from Routes.alarms_routes import alarms_routes
 from Routes.comments_routes import comments_routes
-
+# Asignando prefijos para llamado de las APIs
 app.register_blueprint(users_routes, url_prefix="/users")
 app.register_blueprint(routes_routes, url_prefix="/routes")
 app.register_blueprint(alarms_routes, url_prefix="/alarms")
 app.register_blueprint(comments_routes, url_prefix="/comments")
 
+# Rutas de la pagina
 @app.route("/")
 def home():
     return render_template('home.html')
@@ -21,7 +24,7 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'user_id' in session:
-        return redirect(url_for('community'))
+        return render_template('community.html')
     else: 
         if request.method == 'POST':
             username = request.form['username']
@@ -32,17 +35,17 @@ def login():
             if user:
                 session['user_id'] = user.id
                 print('Inicio de sesión exitoso')
-                return redirect(url_for('community'))
+                return render_template('community.html')
             else:
                 print('Credenciales incorrectas')
-                return redirect(url_for('login'))
+                return render_template('login.html')
 
     return render_template('login.html')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if 'user_id' in session:
-        return redirect(url_for('community'))
+        return render_template('community.html')
     else: 
         if request.method == 'POST':
             username = request.form['username']
@@ -59,7 +62,7 @@ def register():
                     db.session.add(Users(username= username,password=password))
                     db.session.commit()
                     print("Usuario creado con exito")
-                    return redirect(url_for('login'))
+                    return render_template('login.html')
                 else:
                     print("Las contraseñas son diferentes, no se puede crear el usuario")
 
@@ -70,7 +73,7 @@ def register():
 def logout():
     session.pop('user_id', None)
     print('Cierre de sesión exitoso')
-    return redirect(url_for('home'))
+    return render_template('home.html')
 
 @app.route("/community")
 def community():
@@ -80,16 +83,16 @@ def community():
         return render_template('community.html', userImg=user.image)
     else: 
         print("No hay usuario Ingresado")
-        return redirect(url_for('login'))
+        return render_template('login.html')
 
 @app.route("/community/profile")
 def profile():
     if 'user_id' in session:
         user_id = session['user_id']
         user = Users.query.get(user_id)
-        return render_template('profile.html', userImg=user.image)
+        return render_template('profile.html',userName=user.username,userImg=user.image)
     else: 
-        return redirect(url_for('login'))
+        return render_template('login.html')
 
 @app.route("/community/routes")
 def routes():
@@ -98,7 +101,7 @@ def routes():
         user = Users.query.get(user_id)
         return render_template('routes.html', userImg=user.image)
     else: 
-        return redirect(url_for('login'))
+        return render_template('login.html')
 
 @app.route("/community/routes/add")
 def add_routes():
@@ -107,27 +110,12 @@ def add_routes():
         user = Users.query.get(user_id)
         return render_template('add_route.html', userImg=user.image)
     else: 
-        return redirect(url_for('login'))
+        return render_template('login.html')
 
 @app.route('/getUserIDSession', methods=['GET'])
 def get_user_id():
     user_id = session.get('user_id', None)
     return jsonify({'user_id': user_id})
-
-@app.route('/community/routes/byUser', methods=['GET'])
-def get_routes_by_id():
-    if 'user_id' in session:
-        user_id = session['user_id']        
-        routes = Routes.query.filter_by(user_id=user_id).all()
-
-        return jsonify([{
-            'id': route.id,
-            'nombre': route.nombre,
-            'start': route.start,
-            'destiny': route.destiny,
-        } for route in routes])
-    else:
-        return redirect(url_for('login'))
     
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

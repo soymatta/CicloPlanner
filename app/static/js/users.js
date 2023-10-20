@@ -14,7 +14,7 @@ function postUser(username, password) {
 // ----- PUT -----
 function putUser(id, username, password, image) {
   let data = { username, password, image };
-  callApi("PUT", `${urlApi}/user s/put/${id}`, data);
+  callApi("PUT", `${urlApi}/users/put/${id}`, data);
 }
 
 // ----- DELETE -----
@@ -22,6 +22,7 @@ function deleteUser(id) {
   callApi("DELETE", `${urlApi}/users/delete/${id}`);
 }
 
+// ----- OBTENER LA ID DEL USUARIO EN SESION -----
 async function getUserIDSession() {
   try {
     const response = await fetch("/getUserIDSession", {
@@ -31,7 +32,7 @@ async function getUserIDSession() {
     const user_id = data.user_id;
 
     if (user_id !== null) {
-      console.log("User ID:", user_id);
+      console.log("IdUser sesion:", user_id);
       return user_id;
     } else {
       console.log("No se encontró user_id en la sesión");
